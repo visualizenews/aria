@@ -1,0 +1,122 @@
+:root {
+  --bg-color: #E6F4F1;
+  --fg-color: #364954;
+  
+  --ac0-color: #00C2FF;
+  --ac1-color: #009AD5;
+  --ac2-color: #0074AC;
+  --ac3-color: #005185;
+  --ac4-color: #002F60;
+
+  --scale0-color: #AD2370;
+  --scale1-color: #D74364;
+  --scale2-color: #F36C57;
+  --scale3-color: #FF9A4F;
+  --scale4-color: #FFC954;
+  --scale5-color: #F9F871;
+  --scale6-color: #9BDE7E;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--fg-color);
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+.page-header {
+  display: block;
+  height: 90px;
+  width: 100%;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 100px;
+  letter-spacing: 2px;
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.page-map {
+  display: block;
+  height: auto;
+  margin: 0 40px;
+  position: relative;
+  width: auto;
+}
+
+.page-map::before {
+  background: transparent url(shape.png) center center no-repeat;
+  background-size: contain;
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+  transition: background-image .25s ease-in-out;
+  width: 100%;
+}
+
+.page-map:hover::before {
+  background: transparent url(picture.png) center center no-repeat;
+  background-size: contain;
+}
+
+.page-map .marker {
+  background: red;
+  display: block;
+  height: 40px;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0) rotate(45deg);
+  transform-origin: 50% 50%;
+  width: 40px;
+}
+
+.page-map .marker#marker-1 {
+  left: 56%;
+  top: 60%;
+}
+
+.page-map .marker#marker-2 {
+  right: 22%;
+  top: 38%;
+}
+
+.page-map .marker#marker-3 {
+  left: 48%;
+  top: 56%;
+}
+
+.page-map .marker#marker-4 {
+  left: 60%;
+  top: 30%;
+}
+
+.page-map .marker#marker-5 {
+  right: 18%;
+  top: 30%;
+}
+
+.page-map .marker#marker-6 {
+  left: 60%;
+  top: 43%;
+}
+
+.page-map .marker#marker-7 {
+  left: 57%;
+  top: 48%;
+}
+
+.page-map .marker#marker-8 {
+  left: 40%;
+  top: 42%;
+}
+
+.page-map .marker#marker-9 {
+  right: 29%;
+  top: 39%;
+}
