@@ -69,7 +69,8 @@ body {
   width: 100%;
 }
 
-.page-map:hover::before {
+.page-map:hover::before,
+.page-map:active::before {
   background: transparent url(picture.png) center center no-repeat;
   background-size: contain;
 }
@@ -78,54 +79,68 @@ body {
   background: var(--scale2-color);
   border-radius: 50%;
   display: block;
-  height: 40px;
+  height: 25px;
   position: absolute;
   transform: translate3d(-50%, -50%, 0);
   transform-origin: 50% 50%;
-  width: 40px;
+  width: 25px;
 }
 
-.page-map .marker.marker-7 {
+.page-map .marker.marker-6 {
   left: 56%;
   top: 60%;
 }
 
-.page-map .marker.marker-3 {
+.page-map .marker.marker-2 {
   right: 22%;
   top: 38%;
 }
 
-.page-map .marker.marker-1 {
+.page-map .marker.marker-0 {
   left: 48%;
   top: 56%;
 }
 
-.page-map .marker.marker-2 {
+.page-map .marker.marker-1 {
   left: 60%;
   top: 30%;
 }
 
-.page-map .marker.marker-9 {
+.page-map .marker.marker-8 {
   right: 18%;
   top: 30%;
 }
 
-.page-map .marker.marker-4 {
+.page-map .marker.marker-3 {
   left: 60%;
   top: 43%;
 }
 
-.page-map .marker.marker-5 {
+.page-map .marker.marker-4 {
   left: 57%;
   top: 48%;
 }
 
-.page-map .marker.marker-8 {
+.page-map .marker.marker-7 {
   left: 40%;
   top: 42%;
 }
 
-.page-map .marker.marker-6 {
+.page-map .marker.marker-5 {
   right: 29%;
   top: 39%;
+}
+
+.page-map-indicator {
+  top: 10px;
+  font-size: 18px;
+  font-weight: 900;
+  left: 0;
+  letter-spacing: 2px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  text-shadow: 2px 0 0 var(--bg-color), -2px 0 0 var(--bg-color), 0 2px 0 var(--bg-color), 0 -2px 0 var(--bg-color);
+  text-transform: uppercase;
+  width: auto;
 }
