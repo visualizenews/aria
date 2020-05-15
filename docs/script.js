@@ -33,13 +33,13 @@ const SUBS = {
     name: 'Ozono',
     abbr: 'O3'
   },
-  C6H6: {
-    name: 'Benzene',
-    abbr: 'C6H6'
-  },
   SO2: {
     name: 'Anidride Solforosa',
     abbr: 'SO2'
+  },
+  C6H6: {
+    name: 'Benzene',
+    abbr: 'C6H6'
   },
 };
 
