@@ -12,34 +12,41 @@ const STATIONS = [
 ];
 const SUBS = {
   PM10: {
-    name: 'Polveri Sottili',
+    name: 'PM 10',
     code: 'PM10',
-    safe: 10,
-    warning: 25,
+    limits: [ 20, 35, 50, 100 ],
   },
   PM25: {
-    name: 'Polveri Super Sottili',
-    code: 'PM25'
+    name: 'PM 2,5',
+    code: 'PM25',
+    limits: [ 20, 35, 50, 100 ],
   },
   NO2: {
     name: 'Diossido di azoto',
-    code: 'NO2'
+    code: 'NO2',
+    limits: [ 40, 100, 200, 400 ],
   },
+  /*
   CO_8H: {
     name: 'Anidride Carbonica',
-    code: 'CO 8h'
+    code: 'CO 8h',
+    limits: [ 40, 100, 200, 400 ],
   },
+  */
   O3: {
     name: 'Ozono',
-    code: 'O3'
+    code: 'O3',
+    limits: [ 80, 120, 180, 240 ],
   },
   SO2: {
     name: 'Anidride Solforosa',
-    code: 'SO2'
+    code: 'SO2',
+    limits: [ 50, 125, 350, 500 ],
   },
   C6H6: {
     name: 'Benzene',
-    code: 'C6H6'
+    code: 'C6H6',
+    limits: [ 2, 3, 4, 5 ],
   },
 };
 
@@ -85,6 +92,12 @@ const SUBS = {
   const prepareData = data => {
     console.log(data);
     rawData = data.records;
+
+    const firstDay = moment(rawData[0].data);
+    const lastDay = moment(rawData[0].data).subtract(7, 'days');
+
+    console.log(firstDay, firstDay.format('YYYY MM DD'), '-', lastDay.format('YYYY MM DD'));
+
     // Substances
     rawData.forEach(d => {
       if (substances.indexOf(d.inquinante.toUpperCase()) === -1) { substances.push(d.inquinante.toUpperCase()) }
@@ -105,7 +118,24 @@ const SUBS = {
                 index: j,
                 // Logic here
                 style: {
-                  background: 'var(--scale2-color)'
+                  background: (() => {
+                    const today = rawData.find((d) => (d.data == firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key));
+                    if (today.valore === null) {
+                      return 'var(--neutral-color)';
+                    }
+                    let k = 0;
+                    console.log(SUBS[key]);
+                    const top = SUBS[key].limits.length;
+                    while (k < top) {
+                      console.log(k, top, today.inquinante, today.valore, SUBS[key].limits[k]);
+                      if (today.valore <= SUBS[key].limits[k]) {
+                        console.log('found');
+                        return `var(--scale${k}-color)`;
+                      }
+                      k++;
+                    }
+                  })(),
+                  //'var(--scale2-color)'
                 }
               });
             });
