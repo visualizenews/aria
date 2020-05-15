@@ -37,15 +37,15 @@ body {
 
 .page-header {
   display: block;
-  height: 120px;
+  height: 40px;
   margin: 20px 0;
   width: 100%;
 }
 
 .page-header h1 {
-  font-size: 36px;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 120px;
+  line-height: 40px;
   letter-spacing: 2px;
   margin: 0;
   text-align: center;
@@ -55,19 +55,27 @@ body {
 .page-maps {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 80px;
+  margin: 0 40px;
 }
 
 .page-map {
   display: block;
   flex: 0 0 50%;
   height: auto;
+  margin: 0 0 20px 0;
   max-width: 50%;
   position: relative;
   width: auto;
 }
 
-.page-map::before {
+.page-map-container {
+  display: block;
+  height: auto;
+  position: relative;
+  width: 100%;
+}
+
+.page-map-container::before {
   background: transparent url(picture.png) center center no-repeat;
   background: transparent url(shape.png) center center no-repeat;
   background-size: contain;
@@ -78,8 +86,8 @@ body {
   width: 100%;
 }
 
-.page-map:hover::before,
-.page-map:active::before {
+.page-map-container:hover::before,
+.page-map-container:active::before {
   background: transparent url(picture.png) center center no-repeat;
   background-size: contain;
 }
@@ -88,11 +96,11 @@ body {
   background: var(--scale2-color);
   border-radius: 50%;
   display: block;
-  height: 20px;
+  height: 10px;
   position: absolute;
   transform: translate3d(-50%, -50%, 0);
   transform-origin: 50% 50%;
-  width: 20px;
+  width: 10px;
 }
 
 .page-map .marker.marker-6 {
@@ -140,16 +148,29 @@ body {
   top: 39%;
 }
 
-.page-map-indicator {
-  top: 10px;
-  font-size: 18px;
+.page-map-title h2 {
+  font-size: 8px;
   font-weight: 900;
-  left: 0;
   letter-spacing: 2px;
-  position: absolute;
-  right: 0;
+  margin: 0 0 10px 0;
   text-align: center;
-  text-shadow: 2px 0 0 var(--bg-color), -2px 0 0 var(--bg-color), 0 2px 0 var(--bg-color), 0 -2px 0 var(--bg-color);
   text-transform: uppercase;
+  white-space: nowrap;
+  width: auto;
+}
+
+.page-charts {
+  display: block;
+  margin: 40px;
+}
+
+.page-chart-title h2 {
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0 0 20px 0;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
   width: auto;
 }
