@@ -166,9 +166,23 @@ body {
   width: auto;
 }
 
+.page-title {
+  margin: 0 0 20px 0;
+}
+
+.page-title h2 {
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .page-charts {
   display: block;
   margin: 40px;
+  overflow: hidden;
 }
 
 .page-chart-title h2 {
@@ -180,4 +194,30 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
   width: auto;
+}
+
+.page-chart {
+  height: 180px;
+  margin: 0 -10px 20px -10px;
+  overflow: hidden;
+}
+
+.page-chart .page-chart-scroller {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 180px;
+  overflow-scrolling: touch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+}
+
+.page-chart .page-chart-wrapper {
+  background: var(--ac0-color);
+  display: block;
+  flex: 0 0 60vw;
+  height: 160px;
+  margin: 0 10px;
+  max-width: 60vw;
 }
