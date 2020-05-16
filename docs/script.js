@@ -184,6 +184,7 @@ const SUBS = {
                 rawData.forEach(d => {
                   if (d.inquinante === 'PM10') {
                     const currentDate = moment(d.data);
+                    // Cambia con un find();
                     // console.log({ currentDate, firstDay, lastDay, stazione_id: d.stazione_id, loop_stazione_id: s.id, key, inquinante: d.inquinante, valore: d.valore });
                     if (currentDate.valueOf() <= firstDay.valueOf() && currentDate.valueOf() >= lastDay.valueOf() && d.stazione_id === s.id && key === d.inquinante.toUpperCase()) {
                       console.log('MATCH');
@@ -192,6 +193,19 @@ const SUBS = {
                         date: currentDate.format('YYYY-MM-DD'),
                         x: currentDate.valueOf(),
                         y: d.valore || 0,
+                        className: (() => {
+                          if (!d || d.valore === null) {
+                            return 'level-neutral';
+                          }
+                          let k = 0;
+                          const top = SUBS[key].limits.length;
+                          while (k < top) {
+                            if (d.valore <= SUBS[key].limits[k]) {
+                              return `level-${k}`;
+                            }
+                            k++;
+                          }
+                        })()
                       });
                     }
                   }
