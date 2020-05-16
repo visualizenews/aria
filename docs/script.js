@@ -1,14 +1,41 @@
 const URL = './data.json';
 const STATIONS = [
-  'Viale Liguria',
-  'Viale Marche',
-  'Via Pascal',
-  'Via Senato',
-  'Verziere',
-  'Via Juvara',
-  'P.le Abbiategrasso',
-  'P.le Zavattari',
-  'Parco Lambro'
+  {
+    id: 1,
+    name: 'Viale Liguria',
+  },
+  {
+    id: 2,
+    name: 'Viale Marche',
+  },
+  {
+    id: 3,
+    name: 'Via Pascal',
+  },
+  {
+    id: 4,
+    name: 'Via Senato',
+  },
+  {
+    id: 5,
+    name: 'Verziere',
+  },
+  {
+    id: 6,
+    name: 'Via Juvara',
+  },
+  {
+    id: 7,
+    name: 'P.le Abbiategrasso',
+  },
+  {
+    id: 8,
+    name: 'P.le Zavattari',
+  },
+  {
+    id: 9,
+    name: 'Parco Lambro'
+  }
 ];
 const SUBS = {
   PM10: {
@@ -81,7 +108,7 @@ const SUBS = {
       html += `<div class="page-map-title"><h2>${m.label}</h2></div>`;
       html += '<div class="page-map-container">';
       m.markers.forEach((mk, j) => {
-          html += `<div class="marker marker-${mk.id}" id="marker-${m.index}-${mk.index}" style="background: ${mk.style.background}"></div>`;
+          html += `<div class="marker marker-${mk.index}" id="marker-${m.index}-${mk.index}" style="background: ${mk.style.background}"></div>`;
       });
       html += '</div>';
       html += '</div>';
@@ -94,7 +121,7 @@ const SUBS = {
     rawData = data.records;
 
     const firstDay = moment(rawData[0].data);
-    const lastDay = moment(rawData[0].data).subtract(7, 'days');
+    const lastDay = moment(rawData[0].data).subtract(17, 'days');
 
     console.log(firstDay, firstDay.format('YYYY MM DD'), '-', lastDay.format('YYYY MM DD'));
 
@@ -114,28 +141,25 @@ const SUBS = {
             const markers = [];
             STATIONS.forEach((s, j) => {
               markers.push({
-                id: j,
+                id: s.id,
                 index: j,
                 // Logic here
                 style: {
                   background: (() => {
-                    const today = rawData.find((d) => (d.data == firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key));
-                    if (today.valore === null) {
+                    const today = rawData.find((d) => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
+                    console.log(s.id, today);
+                    if (!today || today.valore === null) {
                       return 'var(--neutral-color)';
                     }
                     let k = 0;
-                    console.log(SUBS[key]);
                     const top = SUBS[key].limits.length;
                     while (k < top) {
-                      console.log(k, top, today.inquinante, today.valore, SUBS[key].limits[k]);
                       if (today.valore <= SUBS[key].limits[k]) {
-                        console.log('found');
                         return `var(--scale${k}-color)`;
                       }
                       k++;
                     }
                   })(),
-                  //'var(--scale2-color)'
                 }
               });
             });
@@ -145,10 +169,10 @@ const SUBS = {
       }
     });
     // Charts
-    STATIONS.forEach((s, i) => {
+    STATIONS.forEach(s => {
       charts.push({
-        id: i,
-        title: s,
+        id: s.id,
+        title: s.name,
         charts: (() => {
           const charts = [];
           keys.forEach((key, j) => {
@@ -157,13 +181,33 @@ const SUBS = {
               id: j,
               title: SUBS[key].name,
               code: SUBS[key].code,
-              data: []
+              data: (() => {
+                const data = [];
+                rawData.forEach(d => {
+                  if (d.inquinante === 'PM10') {
+                    const currentDate = moment(d.data);
+                    // console.log({ currentDate, firstDay, lastDay, stazione_id: d.stazione_id, loop_stazione_id: s.id, key, inquinante: d.inquinante, valore: d.valore });
+                    if (currentDate.valueOf() <= firstDay.valueOf() && currentDate.valueOf() >= lastDay.valueOf() && d.stazione_id === s.id && key === d.inquinante.toUpperCase()) {
+                      console.log('MATCH');
+                      data.push({
+                        data: d,
+                        date: currentDate.format('YYYY-MM-DD'),
+                        x: currentDate.valueOf(),
+                        y: d.valore || 0,
+                      });
+                    }
+                  }
+                })
+                return data;
+              })(),
             });
           });
           return charts;
         })(),
       });
     });
+
+    console.log(charts);
   };
   
   const main = () => {

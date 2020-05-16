@@ -21,7 +21,7 @@
   --scale1-color: #FFC954;
   --scale0-color: #9BDE7E;
 
-  --neutral-color: #9AAEBB;
+  --neutral-color: rgba(154, 174, 187, .15);
 }
 
 * {
