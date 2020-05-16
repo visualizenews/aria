@@ -108,7 +108,7 @@ const SUBS = {
       html += `<div class="page-map-title"><h2>${m.label}</h2></div>`;
       html += '<div class="page-map-container">';
       m.markers.forEach((mk, j) => {
-          html += `<div class="marker marker-${mk.index}" id="marker-${m.index}-${mk.index}" style="background: ${mk.style.background}"></div>`;
+          html += `<div class="marker marker-${mk.index} ${mk.className}" id="marker-${m.index}-${mk.index}"></div>`;
       });
       html += '</div>';
       html += '</div>';
@@ -144,23 +144,21 @@ const SUBS = {
                 id: s.id,
                 index: j,
                 // Logic here
-                style: {
-                  background: (() => {
-                    const today = rawData.find((d) => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
-                    console.log(s.id, today);
-                    if (!today || today.valore === null) {
-                      return 'var(--neutral-color)';
+                className: (() => {
+                  const today = rawData.find((d) => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
+                  console.log(s.id, today);
+                  if (!today || today.valore === null) {
+                    return 'level-neutral';
+                  }
+                  let k = 0;
+                  const top = SUBS[key].limits.length;
+                  while (k < top) {
+                    if (today.valore <= SUBS[key].limits[k]) {
+                      return `level-${k}`;
                     }
-                    let k = 0;
-                    const top = SUBS[key].limits.length;
-                    while (k < top) {
-                      if (today.valore <= SUBS[key].limits[k]) {
-                        return `var(--scale${k}-color)`;
-                      }
-                      k++;
-                    }
-                  })(),
-                }
+                    k++;
+                  }
+                })(),
               });
             });
             return markers;

@@ -16,10 +16,6 @@
   --base-scale1-color: #F9F871;
   --base-scale0-color: #9BDE7E;
 
-  --scale3-color: #AD2370;
-  --scale2-color: #F36C57;
-  --scale1-color: #FFC954;
-  --scale0-color: #9BDE7E;
 
   --neutral-color: rgba(154, 174, 187, .15);
 }
@@ -30,6 +26,22 @@
 
 a {
   color: var(--ac0-color);
+}
+
+.level-neutral {
+  background: var(--neutral-color) !important;
+}
+.level-0 {
+  background: var(--base-scale0-color) !important;
+}
+.level-1 {
+  background: var(--base-scale2-color) !important;
+}
+.level-2 {
+  background: var(--base-scale4-color) !important;
+}
+.level-3 {
+  background: var(--base-scale6-color) !important;
 }
 
 body {
