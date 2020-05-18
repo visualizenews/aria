@@ -374,7 +374,7 @@ body {
 }
 
 .page-chart-point {
-  background: red;
+  background: var(--ac0-color);
   border-radius: 50%;
   display: block;
   height: 5px;
