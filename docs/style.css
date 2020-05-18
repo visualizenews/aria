@@ -221,14 +221,165 @@ body {
   height: 190px;
   overflow-x: auto;
   overflow-y: hidden;
+  padding-right: 180px;
   scroll-snap-type: x mandatory;
+  width: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .page-chart .page-chart-wrapper {
-  background: var(--ac0-color);
   display: block;
   flex: 0 0 60vw;
   height: 160px;
-  margin: 0 10px;
   max-width: 60vw;
+  padding: 0 10px;
+  position: relative;
+}
+
+.page-chart .page-chart-wrapper-inner {
+  background: var(--neutral-color);
+  display: block;
+  height: 160px;
+  position: relative;
+  width: 100%;
+}
+
+.page-chart .page-chart-wrapper-title {
+  display: block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.page-chart .page-chart-wrapper-title h3 {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 2px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.page-chart .page-chart-container {
+  bottom: 0;
+  display: block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.page-chart .page-chart-container.no-data::after {
+  color: var(--ac4-color);
+  content: 'Dato Non Disponibile';
+  font-size: 10px;
+  font-weight: 900;
+  left: 50%;
+  opacity: .5;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  white-space: nowrap;
+}
+
+.page-chart .page-chart-x-axis-thick {
+  background-color: var(--ac4-color);
+  display: block;
+  height: 4px;
+  position: absolute;
+  transform: translate3d(-50%, 0, 0);
+  width: 1px;
+  z-index: 1;
+}
+
+.page-chart .page-chart-x-axis-thick-highlight {
+  height: 6px;
+}
+
+.page-chart .page-chart-y-axis-thick {
+  background-color: var(--fg-color);
+  display: block;
+  height: 1px;
+  position: absolute;
+  transform: translate3d(-100%, -50%, 0);
+  width: 4px;
+  z-index: 1;
+}
+
+.page-chart .page-chart-x-axis-label {
+  bottom: 0;
+  color: var(--fg-color);
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  height: auto;
+  line-height: 12px;
+  position: absolute;
+  text-transform: uppercase;
+  transform: translate3d(-50%, 0, 0);
+  z-index: 1;
+}
+
+.page-chart .page-chart-y-axis-marker {
+  background-color: var(--fg-color);
+  display: block;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  transform: translate3d(0, -50%, 0);
+  z-index: 1;
+}
+
+.page-chart .page-chart-y-axis-marker-label {
+  background-color: transparent !important;
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  position: absolute;
+  right: 5px;
+  transform: translate3d(0, -100%, 0);
+  z-index: 2;
+}
+
+.page-chart .page-chart-y-axis-marker-label.level-0 {
+  color: var(--base-scale0-color);
+}
+
+.page-chart .page-chart-y-axis-marker-label.level-1 {
+  color: var(--base-scale2-color);
+}
+
+.page-chart .page-chart-y-axis-marker-label.level-2 {
+  color: var(--base-scale4-color);
+}
+
+.page-chart .page-chart-y-axis-marker-label.level-3 {
+  color: var(--base-scale6-color);
+}
+
+.page-chart-y-axis-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  position: absolute;
+  left: 15px;
+  transform: translate3d(-100%, -50%, 0);
+}
+
+.page-chart-point {
+  background: red;
+  border-radius: 50%;
+  display: block;
+  height: 5px;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0);
+  width: 5px;
+  z-index: 3;
 }

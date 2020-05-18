@@ -1,4 +1,5 @@
 const URL = './data.json';
+
 const STATIONS = [
   {
     id: 1,
@@ -85,14 +86,17 @@ const SUBS = {
   const maps = [];
   const charts = [];
 
-  const drawCharts = () => {
+  const drawChartsContainers = () => {
     let html = '';
     charts.forEach((c, i) => {
       html += `<div class="page-chart page-chart-${c.id}" data-station="${c.id}" id="page-chart-${c.id}">`;
       html += `<div class="page-chart-title"><h2>${c.title}</h2></div>`
       html += '<div class="page-chart-scroller">';
       c.charts.forEach((ch, j) => {
-        html += '<div class="page-chart-wrapper">CHART</div>'
+        html += `<div class="page-chart-wrapper"><div class="page-chart-wrapper-inner">
+        <div class="page-chart-wrapper-title"><h3>${ch.title}</h3></div>
+          <div class="page-chart-container" id="page-chart-container-${c.id}-${ch.id}"></div>
+        </div></div>`
       });
       html += '</div>'
       html += '</div>';
@@ -100,9 +104,71 @@ const SUBS = {
     $chartContainer.innerHTML = html;
   };
 
+  const drawCharts = () => {
+    charts.forEach((c, i) => {
+      c.charts.forEach((ch, j) => {
+        console.log(ch);
+        const $container = document.querySelector(`#page-chart-container-${c.id}-${ch.id}`);
+        if (!ch.data.find(d => d.y > -1)) {
+          $container.classList.add('no-data');
+        } else {
+          let html = '';
+          const chartWidth = $container.offsetWidth;
+          const chartHeight = $container.offsetHeight;
+          const x = d3.scaleLinear()
+            .domain(d3.extent(ch.data, d => d.x))
+            .range([20, chartWidth - 20]);
+          const allYValues = SUBS[ch.key].limits
+            .concat(d3.extent(ch.data, d => d.y));
+          allYValues.push(0);
+          const uniqueYValues = allYValues.filter( (item, index) => (item > -1 && allYValues.indexOf(item) === index)).sort();
+          const y = d3.scaleLinear()
+            .domain([0, Math.max(...uniqueYValues)])
+            .range([chartHeight - 20, 30]);
+
+          
+          ch.data.forEach(d => {
+            // X-Axis
+            const xPos = x(d.x);
+            const yPos = chartHeight - 20;
+            const pointYPos = y(d.y);
+            const date = moment(d.date);
+            // Thicks
+            html += `<div class="page-chart-x-axis-thick ${(date.day() === 1) ? 'page-chart-x-axis-thick-highlight' : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
+            // Labels
+            if (date.day() === 1) {
+              html += `<div class="page-chart-x-axis-label" style="left: ${xPos}px;">${date.format('dd D/MM')}</div>`;
+            }
+            // Points
+            if (d.y > -1) {
+              html += `<div class="page-chart-point" style="top: ${pointYPos}px; left: ${xPos}px"></div>`;
+            }
+          });
+          // Y-Axis
+          uniqueYValues.forEach(u => {
+            console.log(u);
+            const xPos = 20;
+            const x2Pos = chartWidth - 20;
+            const yPos = y(u);
+            const level = SUBS[ch.key].limits.indexOf(u);
+            // Thicks
+            html += `<div class="page-chart-y-axis-thick ${(level > -1) ? 'level-' + level : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
+            // Markers
+            if (level > -1) {
+              html += `<div class="page-chart-y-axis-marker level-${level}" style="top: ${yPos}px;"></div>`;
+              html += `<div class="page-chart-y-axis-marker-label level-${level}" style="top: ${yPos}px;">${u}</div>`;
+            } else if (u > 0) {
+              html += `<div class="page-chart-y-axis-label" style="top: ${yPos}px;">${u}</div>`;
+            }
+          });
+          $container.innerHTML = html;
+        }
+      })
+    });
+  };
+
   const drawMaps = () => {
     let html = '';
-    console.log(maps);
     maps.forEach(m => {
       html += `<div class="page-map page-map-${m.index}" data-sub="${m.id}" id="page-map-${m.id}">`;
       html += `<div class="page-map-title"><h2>${m.label}</h2></div>`;
@@ -117,14 +183,10 @@ const SUBS = {
   };
 
   const prepareData = data => {
-    console.log(data);
     rawData = data.records;
 
     const firstDay = moment(rawData[0].data);
-    const lastDay = moment(rawData[0].data).subtract(17, 'days');
-
-    console.log(firstDay, firstDay.format('YYYY MM DD'), '-', lastDay.format('YYYY MM DD'));
-
+    const lastDay = moment(rawData[0].data).subtract(14, 'days');
     // Substances
     rawData.forEach(d => {
       if (substances.indexOf(d.inquinante.toUpperCase()) === -1) { substances.push(d.inquinante.toUpperCase()) }
@@ -143,10 +205,8 @@ const SUBS = {
               markers.push({
                 id: s.id,
                 index: j,
-                // Logic here
                 className: (() => {
                   const today = rawData.find((d) => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
-                  console.log(s.id, today);
                   if (!today || today.valore === null) {
                     return 'level-neutral';
                   }
@@ -172,57 +232,61 @@ const SUBS = {
         id: s.id,
         title: s.name,
         charts: (() => {
-          const charts = [];
+          const singleCharts = [];
           keys.forEach((key, j) => {
             // Logic here
-            charts.push({
+            singleCharts.push({
               id: j,
               title: SUBS[key].name,
               code: SUBS[key].code,
+              key: key,
               data: (() => {
                 const data = [];
-                rawData.forEach(d => {
-                  if (d.inquinante === 'PM10') {
-                    const currentDate = moment(d.data);
-                    // Cambia con un find();
-                    // console.log({ currentDate, firstDay, lastDay, stazione_id: d.stazione_id, loop_stazione_id: s.id, key, inquinante: d.inquinante, valore: d.valore });
-                    if (currentDate.valueOf() <= firstDay.valueOf() && currentDate.valueOf() >= lastDay.valueOf() && d.stazione_id === s.id && key === d.inquinante.toUpperCase()) {
-                      console.log('MATCH');
-                      data.push({
-                        data: d,
-                        date: currentDate.format('YYYY-MM-DD'),
-                        x: currentDate.valueOf(),
-                        y: d.valore || 0,
-                        className: (() => {
-                          if (!d || d.valore === null) {
-                            return 'level-neutral';
+                let currentDay = moment(rawData[0].data);
+                let found = false;
+                while (currentDay.valueOf() >= lastDay.valueOf()) {
+                  const currentData = rawData.find(d => (d.data === currentDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
+                  if (currentData) {
+                    data.push({
+                      date: moment(currentData.data).format('YYYY-MM-DD'),
+                      x: moment(currentData.data).valueOf(),
+                      y: currentData.valore || -1,
+                      className: (() => {
+                        if (currentData.valore === null) {
+                          return 'level-neutral';
+                        }
+                        let k = 0;
+                        const top = SUBS[key].limits.length;
+                        while (k < top) {
+                          if (currentData.valore <= SUBS[key].limits[k]) {
+                            return `level-${k}`;
                           }
-                          let k = 0;
-                          const top = SUBS[key].limits.length;
-                          while (k < top) {
-                            if (d.valore <= SUBS[key].limits[k]) {
-                              return `level-${k}`;
-                            }
-                            k++;
-                          }
-                        })()
-                      });
-                    }
+                          k++;
+                        }
+                      })()
+                    });
+                  } else {
+                    data.push({
+                      date: currentDay.format('YYYY-MM-DD'),
+                      x: currentDay.valueOf(),
+                      y: -1,
+                      className: 'level-neutral',
+                    });
                   }
-                })
+                  currentDay.subtract(1, 'days');
+                }
                 return data;
               })(),
             });
           });
-          return charts;
+          return singleCharts;
         })(),
       });
     });
-
-    console.log(charts);
   };
   
   const main = () => {
+    moment.locale('it');
     fetch(
       URL,
       {
@@ -231,8 +295,8 @@ const SUBS = {
       .then(response => response.json())
       .then(data => {
         prepareData(data);
-        console.log(maps);
         drawMaps();
+        drawChartsContainers();
         drawCharts();
       });
   }
@@ -244,6 +308,5 @@ const SUBS = {
         document.addEventListener('DOMContentLoaded', main);
     }
   };
-
   ready();
 })()
