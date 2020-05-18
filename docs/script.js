@@ -43,16 +43,19 @@ const SUBS = {
     name: 'PM 10',
     code: 'PM10',
     limits: [ 20, 35, 50, 100 ],
+    unit: 'mg',
   },
   PM25: {
     name: 'PM 2,5',
     code: 'PM25',
     limits: [ 20, 35, 50, 100 ],
+    unit: 'mg',
   },
   NO2: {
     name: 'Diossido di azoto',
     code: 'NO2',
     limits: [ 40, 100, 200, 400 ],
+    unit: 'mg',
   },
   /*
   CO_8H: {
@@ -65,16 +68,19 @@ const SUBS = {
     name: 'Ozono',
     code: 'O3',
     limits: [ 80, 120, 180, 240 ],
+    unit: 'mg',
   },
   SO2: {
     name: 'Anidride Solforosa',
     code: 'SO2',
     limits: [ 50, 125, 350, 500 ],
+    unit: 'mg',
   },
   C6H6: {
     name: 'Benzene',
     code: 'C6H6',
     limits: [ 2, 3, 4, 5 ],
+    unit: 'mg',
   },
 };
 
@@ -156,7 +162,7 @@ const SUBS = {
             // Markers
             if (level > -1) {
               html += `<div class="page-chart-y-axis-marker level-${level}" style="top: ${yPos}px;"></div>`;
-              html += `<div class="page-chart-y-axis-marker-label level-${level}" style="top: ${yPos}px;">${u}</div>`;
+              html += `<div class="page-chart-y-axis-marker-label level-${level}" style="top: ${yPos}px;">${u} <span>${((level === (SUBS[ch.key].limits.length - 1)) ? SUBS[ch.key].unit : '')}</span></div>`;
             } else if (u > 0) {
               html += `<div class="page-chart-y-axis-label" style="top: ${yPos}px;">${u}</div>`;
             }
