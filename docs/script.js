@@ -43,19 +43,19 @@ const SUBS = {
     name: 'PM 10',
     code: 'PM10',
     limits: [ 20, 35, 50, 100 ],
-    unit: 'mg',
+    unit: 'µg/m³',
   },
   PM25: {
     name: 'PM 2,5',
     code: 'PM25',
     limits: [ 20, 35, 50, 100 ],
-    unit: 'mg',
+    unit: 'µg/m³',
   },
   NO2: {
     name: 'Diossido di azoto',
     code: 'NO2',
     limits: [ 40, 100, 200, 400 ],
-    unit: 'mg',
+    unit: 'µg/m³',
   },
   /*
   CO_8H: {
@@ -68,21 +68,24 @@ const SUBS = {
     name: 'Ozono',
     code: 'O3',
     limits: [ 80, 120, 180, 240 ],
-    unit: 'mg',
+    unit: 'µg/m³',
   },
   SO2: {
     name: 'Anidride Solforosa',
     code: 'SO2',
     limits: [ 50, 125, 350, 500 ],
-    unit: 'mg',
+    unit: 'µg/m³',
   },
   C6H6: {
     name: 'Benzene',
     code: 'C6H6',
     limits: [ 2, 3, 4, 5 ],
-    unit: 'mg',
+    unit: 'µg/m³',
   },
 };
+const MARGINS = [30, 30, 20, 20];
+
+const DAYS = 30;
 
 (() => {
   const $mapContainer = document.querySelector('#page-maps');
@@ -92,84 +95,107 @@ const SUBS = {
   const maps = [];
   const charts = [];
 
+  const reset = () => {
+    const $chartContainers = document.querySelectorAll('.page-chart-container');
+    $chartContainers.forEach($c => { $c.innerHTML = '' });
+    drawCharts();
+  };
+
   const drawChartsContainers = () => {
     let html = '';
     charts.forEach((c, i) => {
-      html += `<div class="page-chart page-chart-${c.id}" data-station="${c.id}" id="page-chart-${c.id}">`;
-      html += `<div class="page-chart-title"><h2>${c.title}</h2></div>`
-      html += '<div class="page-chart-scroller">';
-      c.charts.forEach((ch, j) => {
-        html += `<div class="page-chart-wrapper"><div class="page-chart-wrapper-inner">
-        <div class="page-chart-wrapper-title"><h3>${ch.title}</h3></div>
-          <div class="page-chart-container" id="page-chart-container-${c.id}-${ch.id}"></div>
-        </div></div>`
+      console.log('c', c);
+      const hasData = c.charts.find( cf => {
+        console.log(cf);
+        return cf.data.find(cff => cff.y > -1);
       });
-      html += '</div>'
-      html += '</div>';
+      if (hasData) {
+        html += `<div class="page-chart page-chart-${c.id}" data-station="${c.id}" id="page-chart-${c.id}">`;
+        html += `<div class="page-chart-title"><h2>${c.title}</h2></div>`
+        html += '<div class="page-chart-scroller">';
+        c.charts.forEach((ch, j) => {
+          if (ch.data.find(chh => chh.y > -1)) {
+            html += `<div class="page-chart-wrapper"><div class="page-chart-wrapper-inner">
+            <div class="page-chart-wrapper-title"><h3>${ch.title}</h3></div>
+              <div class="page-chart-container" id="page-chart-container-${c.id}-${ch.id}"></div>
+            </div></div>`
+          }
+        });
+        html += '</div>'
+        html += '</div>';
+      }
     })
     $chartContainer.innerHTML = html;
   };
 
   const drawCharts = () => {
+    let screenSize = 'S';    
+    if (window.matchMedia('screen and (min-width:1280px)').matches) {
+      screenSize = 'XL';
+    } else if (window.matchMedia('screen and (min-width:1024px)').matches) {
+      screenSize = 'L';
+    } else if (window.matchMedia('screen and (min-width:768px)').matches) {
+      screenSize = 'M';
+    }
     charts.forEach((c, i) => {
       c.charts.forEach((ch, j) => {
-        console.log(ch);
         const $container = document.querySelector(`#page-chart-container-${c.id}-${ch.id}`);
-        if (!ch.data.find(d => d.y > -1)) {
-          $container.classList.add('no-data');
-        } else {
-          let html = '';
-          const chartWidth = $container.offsetWidth;
-          const chartHeight = $container.offsetHeight;
-          const x = d3.scaleLinear()
-            .domain(d3.extent(ch.data, d => d.x))
-            .range([20, chartWidth - 20]);
-          const allYValues = SUBS[ch.key].limits
-            .concat(d3.extent(ch.data, d => d.y));
-          allYValues.push(0);
-          const uniqueYValues = allYValues.filter( (item, index) => (item > -1 && allYValues.indexOf(item) === index)).sort();
-          const y = d3.scaleLinear()
-            .domain([0, Math.max(...uniqueYValues)])
-            .range([chartHeight - 20, 30]);
+        if ($container) {
+          if (!ch.data.find(d => d.y > -1)) {
+            $container.classList.add('no-data');
+          } else {
+            let html = '';
+            const chartWidth = $container.offsetWidth;
+            const chartHeight = $container.offsetHeight;
+            const x = d3.scaleLinear()
+              .domain(d3.extent(ch.data, d => d.x))
+              .range([MARGINS[3], chartWidth - MARGINS[1]]);
+            const allYValues = SUBS[ch.key].limits
+              .concat(d3.extent(ch.data, d => d.y));
+            allYValues.push(0);
+            const uniqueYValues = allYValues.filter( (item, index) => (item > -1 && allYValues.indexOf(item) === index)).sort();
+            const y = d3.scaleLinear()
+              .domain([0, Math.max(...uniqueYValues)])
+              .range([chartHeight - MARGINS[2], MARGINS[0]]);
 
-          
-          ch.data.forEach(d => {
-            // X-Axis
-            const xPos = x(d.x);
-            const yPos = chartHeight - 20;
-            const pointYPos = y(d.y);
-            const date = moment(d.date);
-            // Thicks
-            html += `<div class="page-chart-x-axis-thick ${(date.day() === 1) ? 'page-chart-x-axis-thick-highlight' : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
-            // Labels
-            if (date.day() === 1) {
-              html += `<div class="page-chart-x-axis-label" style="left: ${xPos}px;">${date.format('dd D/MM')}</div>`;
-            }
-            // Points
-            if (d.y > -1) {
-              html += `<div class="page-chart-point" style="top: ${pointYPos}px; left: ${xPos}px"></div>`;
-            }
-          });
-          // Y-Axis
-          uniqueYValues.forEach(u => {
-            console.log(u);
-            const xPos = 20;
-            const x2Pos = chartWidth - 20;
-            const yPos = y(u);
-            const level = SUBS[ch.key].limits.indexOf(u);
-            // Thicks
-            html += `<div class="page-chart-y-axis-thick ${(level > -1) ? 'level-' + level : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
-            // Markers
-            if (level > -1) {
-              html += `<div class="page-chart-y-axis-marker level-${level}" style="top: ${yPos}px;"></div>`;
-              html += `<div class="page-chart-y-axis-marker-label level-${level}" style="top: ${yPos}px;">${u} <span>${((level === (SUBS[ch.key].limits.length - 1)) ? SUBS[ch.key].unit : '')}</span></div>`;
-            } else if (u > 0) {
-              html += `<div class="page-chart-y-axis-label" style="top: ${yPos}px;">${u}</div>`;
-            }
-          });
-          $container.innerHTML = html;
+            
+            ch.data.forEach(d => {
+              // X-Axis
+              const xPos = x(d.x);
+              const yPos = chartHeight - 20;
+              const pointYPos = y(d.y);
+              const date = moment(d.date);
+              // Thicks
+              html += `<div class="page-chart-x-axis-thick ${(date.day() === 1) ? 'page-chart-x-axis-thick-highlight' : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
+              // Labels
+              if (date.day() === 1) {
+                html += `<div class="page-chart-x-axis-label" style="left: ${xPos}px;">${(screenSize === 'S') ? date.format('D/MM') : date.format('dd D/MM')}</div>`;
+              }
+              // Points
+              if (d.y > -1) {
+                html += `<div class="page-chart-point ${d.className}" style="top: ${pointYPos}px; left: ${xPos}px"></div>`;
+              }
+            });
+            // Y-Axis
+            uniqueYValues.forEach(u => {
+              const xPos = 20;
+              const x2Pos = chartWidth - 20;
+              const yPos = y(u);
+              const level = SUBS[ch.key].limits.indexOf(u);
+              // Markers
+              if (level > -1) {
+                html += `<div class="page-chart-y-axis-marker level-${level}" style="top: ${yPos}px;"></div>`;
+                html += `<div class="page-chart-y-axis-marker-label level-${level}" style="top: ${yPos}px;">${u} <span>${((level === (SUBS[ch.key].limits.length - 1)) ? SUBS[ch.key].unit : '')}</span></div>`;
+              } else if (u > 0) {
+                // Thicks
+                html += `<div class="page-chart-y-axis-thick ${(level > -1) ? 'level-' + level : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
+                html += `<div class="page-chart-y-axis-label" style="top: ${yPos}px;">${u}</div>`;
+              }
+            });
+            $container.innerHTML = html;
+          }
         }
-      })
+      });
     });
   };
 
@@ -192,7 +218,7 @@ const SUBS = {
     rawData = data.records;
 
     const firstDay = moment(rawData[0].data);
-    const lastDay = moment(rawData[0].data).subtract(14, 'days');
+    const lastDay = moment(rawData[0].data).subtract(DAYS, 'days');
     // Substances
     rawData.forEach(d => {
       if (substances.indexOf(d.inquinante.toUpperCase()) === -1) { substances.push(d.inquinante.toUpperCase()) }
@@ -218,6 +244,9 @@ const SUBS = {
                   }
                   let k = 0;
                   const top = SUBS[key].limits.length;
+                  if (today.valore > SUBS[key].limits[top - 1]) {
+                    return `level-${top}`;
+                  }
                   while (k < top) {
                     if (today.valore <= SUBS[key].limits[k]) {
                       return `level-${k}`;
@@ -263,6 +292,9 @@ const SUBS = {
                         }
                         let k = 0;
                         const top = SUBS[key].limits.length;
+                        if (currentData.valore > SUBS[key].limits[top - 1]) {
+                          return `level-${top}`;
+                        }
                         while (k < top) {
                           if (currentData.valore <= SUBS[key].limits[k]) {
                             return `level-${k}`;
@@ -303,7 +335,10 @@ const SUBS = {
         prepareData(data);
         drawMaps();
         drawChartsContainers();
-        drawCharts();
+        window.addEventListener('resize', reset);
+        reset();
+        document.querySelector('#days').innerHTML = DAYS;
+        document.querySelector('body').classList.remove('loading');
       });
   }
 
