@@ -112,7 +112,7 @@ const DAYS = 30;
       });
       if (hasData) {
         html += `<div class="page-chart page-chart-${c.id}" data-station="${c.id}" id="page-chart-${c.id}">`;
-        html += `<div class="page-chart-title"><h2>${c.title}</h2></div>`
+        html += `<div class="page-chart-title"><h2>${c.id} - ${c.title}</h2></div>`
         html += '<div class="page-chart-scroller">';
         c.charts.forEach((ch, j) => {
           if (ch.data.find(chh => chh.y > -1)) {
@@ -207,8 +207,9 @@ const DAYS = 30;
       html += `<div class="page-map-title"><h2>${m.label}</h2></div>`;
       html += `<div class="page-map-chart"><div class="page-map-chart-inner" id="page-map-chart-${m.id}"></div></div>`;
       html += '<div class="page-map-container">';
+
       m.markers.forEach((mk, j) => {
-          html += `<div class="marker marker-${mk.index} ${mk.className}" id="marker-${m.index}-${mk.index}"></div>`;
+          html += `<div class="marker marker-${mk.index} ${mk.className}" id="marker-${m.index}-${mk.index}">${mk.id}</div>`;
       });
       html += '</div>';
       html += '</div>';
@@ -236,9 +237,10 @@ const DAYS = 30;
           html += `<div class="page-map-chart-label level-${k}" style="top: ${yScale(l)}px">${l} ${(k === SUBS[m.id].limits.length - 1) ? SUBS[m.id].unit : ''}</div>`;
         })
         // Points
+        console.log(m.chart.values);
         m.chart.values.forEach(c => {
           html += `<div class="page-map-chart-point ${c.className}" style="top: ${yScale(c.value)}px"></div>`;
-          html += `<div class="page-map-chart-label page-map-chart-point-label ${c.className}" style="top: ${yScale(c.value)}px">${c.value}</div>`;
+          html += `<div class="page-map-chart-label page-map-chart-point-label" style="top: ${yScale(c.value)}px">${c.station.id}</div>`;
         });
         $mapChartContainer.innerHTML = html;
       } 
@@ -325,7 +327,6 @@ const DAYS = 30;
       }
     });
     // Charts
-    // Ditribution
     STATIONS.forEach(s => {
       charts.push({
         id: s.id,

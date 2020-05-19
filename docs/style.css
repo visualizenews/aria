@@ -119,11 +119,17 @@ body {
   background: var(--neutral-color);
   border-radius: 50%;
   display: block;
-  height: 8px;
+  font-family: 'Fira Mono', monospace;
+  font-size: 8px;
+  font-weight: 400;
+  height: 10px;
+  line-height: 10px;
+  overflow: hidden;
   position: absolute;
+  text-align: center;
   transform: translate3d(-50%, -50%, 0);
   transform-origin: 50% 50%;
-  width: 8px;
+  width: 10px;
 }
 
 .page-map .marker.marker-6 {
@@ -233,7 +239,7 @@ body {
 }
 
 .page-map-chart-point-label {
-  display: none;
+  
 }
 
 .page-map-chart-label.level-0 {
