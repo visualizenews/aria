@@ -1,4 +1,4 @@
-const URL = 'https://api.aria.mia.mi.it/data';
+const URL = 'https://api-aria.mia.mi.it/data';
 
 const STATIONS = [
   {
@@ -100,7 +100,7 @@ const DAYS = 30;
     const $mapChartContainers = document.querySelectorAll('.page-map-chart-inner');
     $chartContainers.forEach($c => { $c.innerHTML = '' });
     $mapChartContainers.forEach($c => { $c.innerHTML = '' });
-    drawMapsCharts();
+    drawMaps();
     drawCharts();
   };
 
@@ -200,7 +200,7 @@ const DAYS = 30;
     });
   };
 
-  const drawMaps = () => {
+  const drawMapsContainers = () => {
     let html = '';
     maps.forEach(m => {
       html += `<div class="page-map page-map-${m.index}" data-sub="${m.id}" id="page-map-${m.id}">`;
@@ -216,22 +216,18 @@ const DAYS = 30;
     $mapContainer.innerHTML = html;
   };
 
-  const drawMapsCharts = () => {
+  const drawMaps = () => {
     maps.forEach(m => {
       const $mapChartContainer = document.querySelector(`#page-map-chart-${m.id}`);
       if ($mapChartContainer) {
         let html = '';
         const height = $mapChartContainer.offsetHeight;
-        console.log('height',height);
         const allData = m.chart.values
           .map(c => c.value)
           .concat(m.chart.limits);
         const yScale = d3.scaleLinear()
           .domain([0, Math.max(...allData)])
           .range([height, 0]);
-          console.log(allData);
-          console.log(yScale.domain());
-          console.log(yScale.range());
         // Zero And Markers
         html += `<div class="page-map-chart-marker" style="top: ${yScale(0)}px"></div>`;
         html += `<div class="page-map-chart-label" style="top: ${yScale(0)}px">0</div>`;
@@ -250,7 +246,7 @@ const DAYS = 30;
   }
 
   const prepareData = data => {
-    rawData = data.records;
+    rawData = data.data.records;
 
     const firstDay = moment(rawData[0].data);
     const lastDay = moment(rawData[0].data).subtract(DAYS, 'days');
@@ -346,7 +342,6 @@ const DAYS = 30;
               data: (() => {
                 const data = [];
                 let currentDay = moment(rawData[0].data);
-                let found = false;
                 while (currentDay.valueOf() >= lastDay.valueOf()) {
                   const currentData = rawData.find(d => (d.data === currentDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
                   if (currentData) {
@@ -389,28 +384,36 @@ const DAYS = 30;
         })(),
       });
     });
-    console.log('charts', charts);
-    console.log('maps', maps);
   };
   
   const main = () => {
     moment.locale('it');
-    fetch(
-      URL,
-      {
-        mode: 'no-cors'
+    fetch(URL)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Server Error while Loading Data');
+        }
+        return response.json();
       })
-      .then(response => response.json())
-      .then(data => {
-        prepareData(data);
-        drawMaps();
-        drawMapsCharts();
-        drawChartsContainers();
-        window.addEventListener('resize', reset);
-        reset();
-        document.querySelector('#days').innerHTML = DAYS;
-        document.querySelector('body').classList.remove('loading');
-      });
+      .then(jsonData => {
+        if (!jsonData.error) {
+          prepareData(jsonData);
+          drawMapsContainers();
+          drawChartsContainers();
+          window.addEventListener('resize', reset);
+          reset();
+          document.querySelector('#days').innerHTML = DAYS;
+          document.querySelector('body').classList.remove('loading');
+        } else {
+          alert('Error loading data');
+          throw new Error('Error Loading Data', jsonData.message);
+        }
+      }).catch(
+        e => {
+          alert('Error loading data');
+          throw new Error('Error Loading Data', e);
+        }
+      );
   }
 
   const ready = () => {
