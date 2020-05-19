@@ -1,4 +1,4 @@
-const URL = './data.json';
+const URL = 'https://api.aria.mia.mi.it/data';
 
 const STATIONS = [
   {
@@ -97,16 +97,17 @@ const DAYS = 30;
 
   const reset = () => {
     const $chartContainers = document.querySelectorAll('.page-chart-container');
+    const $mapChartContainers = document.querySelectorAll('.page-map-chart-inner');
     $chartContainers.forEach($c => { $c.innerHTML = '' });
+    $mapChartContainers.forEach($c => { $c.innerHTML = '' });
+    drawMapsCharts();
     drawCharts();
   };
 
   const drawChartsContainers = () => {
     let html = '';
     charts.forEach((c, i) => {
-      console.log('c', c);
       const hasData = c.charts.find( cf => {
-        console.log(cf);
         return cf.data.find(cff => cff.y > -1);
       });
       if (hasData) {
@@ -204,6 +205,7 @@ const DAYS = 30;
     maps.forEach(m => {
       html += `<div class="page-map page-map-${m.index}" data-sub="${m.id}" id="page-map-${m.id}">`;
       html += `<div class="page-map-title"><h2>${m.label}</h2></div>`;
+      html += `<div class="page-map-chart"><div class="page-map-chart-inner" id="page-map-chart-${m.id}"></div></div>`;
       html += '<div class="page-map-container">';
       m.markers.forEach((mk, j) => {
           html += `<div class="marker marker-${mk.index} ${mk.className}" id="marker-${m.index}-${mk.index}"></div>`;
@@ -213,6 +215,39 @@ const DAYS = 30;
     });
     $mapContainer.innerHTML = html;
   };
+
+  const drawMapsCharts = () => {
+    maps.forEach(m => {
+      const $mapChartContainer = document.querySelector(`#page-map-chart-${m.id}`);
+      if ($mapChartContainer) {
+        let html = '';
+        const height = $mapChartContainer.offsetHeight;
+        console.log('height',height);
+        const allData = m.chart.values
+          .map(c => c.value)
+          .concat(m.chart.limits);
+        const yScale = d3.scaleLinear()
+          .domain([0, Math.max(...allData)])
+          .range([height, 0]);
+          console.log(allData);
+          console.log(yScale.domain());
+          console.log(yScale.range());
+        // Zero And Markers
+        html += `<div class="page-map-chart-marker" style="top: ${yScale(0)}px"></div>`;
+        html += `<div class="page-map-chart-label" style="top: ${yScale(0)}px">0</div>`;
+        m.chart.limits.forEach((l, k) => {
+          html += `<div class="page-map-chart-marker level-${k}" style="top: ${yScale(l)}px"></div>`;
+          html += `<div class="page-map-chart-label level-${k}" style="top: ${yScale(l)}px">${l} ${(k === SUBS[m.id].limits.length - 1) ? SUBS[m.id].unit : ''}</div>`;
+        })
+        // Points
+        m.chart.values.forEach(c => {
+          html += `<div class="page-map-chart-point ${c.className}" style="top: ${yScale(c.value)}px"></div>`;
+          html += `<div class="page-map-chart-label page-map-chart-point-label ${c.className}" style="top: ${yScale(c.value)}px">${c.value}</div>`;
+        });
+        $mapChartContainer.innerHTML = html;
+      } 
+    });
+  }
 
   const prepareData = data => {
     rawData = data.records;
@@ -227,10 +262,42 @@ const DAYS = 30;
     const keys = Object.keys(SUBS);
     keys.forEach((key, i) => {
       if (substances.indexOf(key) > -1) {
+        const sorted = rawData.filter(d => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key)).sort((a, b) => b.valore - a.valore);
         maps.push({
           id: key,
           index: i,
           label: SUBS[key].name,
+          chart: {
+            limits: SUBS[key].limits,
+            values: (() => {
+              const values = [];
+              let level = 'level-neutral';
+              sorted.forEach(s => {
+                let k = 0;
+                const top = SUBS[key].limits.length;
+                if (s.valore > SUBS[key].limits[top - 1]) {
+                  level = `level-${top}`;
+                } else {
+                  let found = false;
+                  while (!found && k < top) {
+                    if (s.valore <= SUBS[key].limits[k]) {
+                      found = true;
+                      level = `level-${k}`;
+                    }
+                    k++;
+                  }
+                }
+                if (s.valore) {
+                  values.push({
+                    value: s.valore,
+                    className: level,
+                    station: STATIONS.find(st => st.id === s.stazione_id),
+                  });
+                }
+              });
+              return values;
+            })(),
+          },
           markers: (() => {
             const markers = [];
             STATIONS.forEach((s, j) => {
@@ -238,7 +305,7 @@ const DAYS = 30;
                 id: s.id,
                 index: j,
                 className: (() => {
-                  const today = rawData.find((d) => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
+                  const today = rawData.find(d => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
                   if (!today || today.valore === null) {
                     return 'level-neutral';
                   }
@@ -262,6 +329,7 @@ const DAYS = 30;
       }
     });
     // Charts
+    // Ditribution
     STATIONS.forEach(s => {
       charts.push({
         id: s.id,
@@ -321,6 +389,8 @@ const DAYS = 30;
         })(),
       });
     });
+    console.log('charts', charts);
+    console.log('maps', maps);
   };
   
   const main = () => {
@@ -334,6 +404,7 @@ const DAYS = 30;
       .then(data => {
         prepareData(data);
         drawMaps();
+        drawMapsCharts();
         drawChartsContainers();
         window.addEventListener('resize', reset);
         reset();
