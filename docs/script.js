@@ -100,7 +100,6 @@ const DAYS = 30;
     const $mapChartContainers = document.querySelectorAll('.page-map-chart-inner');
     $chartContainers.forEach($c => { $c.innerHTML = '' });
     $mapChartContainers.forEach($c => { $c.innerHTML = '' });
-    drawMaps();
     drawCharts();
   };
 
@@ -200,14 +199,19 @@ const DAYS = 30;
     });
   };
 
-  const drawMapsContainers = () => {
+  const drawMaps = () => {
     let html = '';
     maps.forEach(m => {
       html += `<div class="page-map page-map-${m.index}" data-sub="${m.id}" id="page-map-${m.id}">`;
       html += `<div class="page-map-title"><h2>${m.label}</h2></div>`;
-      html += `<div class="page-map-chart"><div class="page-map-chart-inner" id="page-map-chart-${m.id}"></div></div>`;
+      html += `<div class="page-map-legend">`;
+      SUBS[m.id].limits.forEach((l, i) => {
+          html += `<div class="page-map-legend-item level-${i}">< ${l}</div>`;
+      });
+      html += `<div class="page-map-legend-item level-${SUBS[m.id].limits.length}">≥ ${SUBS[m.id].limits[SUBS[m.id].limits.length - 1]} ${SUBS[m.id].unit}</div>`;
+      html += `<div class="page-map-legend-item level-neutral">n.d.</div>`;
+      html += `</div>`;
       html += '<div class="page-map-container">';
-
       m.markers.forEach((mk, j) => {
           html += `<div class="marker marker-${mk.index} ${mk.className}" id="marker-${m.index}-${mk.index}">${mk.id}</div>`;
       });
@@ -216,36 +220,6 @@ const DAYS = 30;
     });
     $mapContainer.innerHTML = html;
   };
-
-  const drawMaps = () => {
-    maps.forEach(m => {
-      const $mapChartContainer = document.querySelector(`#page-map-chart-${m.id}`);
-      if ($mapChartContainer) {
-        let html = '';
-        const height = $mapChartContainer.offsetHeight;
-        const allData = m.chart.values
-          .map(c => c.value)
-          .concat(m.chart.limits);
-        const yScale = d3.scaleLinear()
-          .domain([0, Math.max(...allData)])
-          .range([height, 0]);
-        // Zero And Markers
-        html += `<div class="page-map-chart-marker" style="top: ${yScale(0)}px"></div>`;
-        html += `<div class="page-map-chart-label" style="top: ${yScale(0)}px">0</div>`;
-        m.chart.limits.forEach((l, k) => {
-          html += `<div class="page-map-chart-marker level-${k}" style="top: ${yScale(l)}px"></div>`;
-          html += `<div class="page-map-chart-label level-${k}" style="top: ${yScale(l)}px">${l} ${(k === SUBS[m.id].limits.length - 1) ? SUBS[m.id].unit : ''}</div>`;
-        })
-        // Points
-        console.log(m.chart.values);
-        m.chart.values.forEach(c => {
-          html += `<div class="page-map-chart-point ${c.className}" style="top: ${yScale(c.value)}px"></div>`;
-          html += `<div class="page-map-chart-label page-map-chart-point-label" style="top: ${yScale(c.value)}px">${c.station.id}</div>`;
-        });
-        $mapChartContainer.innerHTML = html;
-      } 
-    });
-  }
 
   const prepareData = data => {
     rawData = data.data.records;
@@ -399,11 +373,12 @@ const DAYS = 30;
       .then(jsonData => {
         if (!jsonData.error) {
           prepareData(jsonData);
-          drawMapsContainers();
+          drawMaps();
           drawChartsContainers();
           window.addEventListener('resize', reset);
           reset();
           document.querySelector('#days').innerHTML = DAYS;
+          document.querySelector('#date').innerHTML = moment(rawData[0].data).format('DD/MM/YYYY');
           document.querySelector('body').classList.remove('loading');
         } else {
           alert('Error loading data');
