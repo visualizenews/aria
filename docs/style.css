@@ -194,6 +194,84 @@ body {
   width: auto;
 }
 
+.page-map-legend {
+  bottom: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  left: 0;
+  position: absolute;
+  right: 0;
+  width: auto;
+  z-index: 3;
+}
+
+.page-map-legend-unit {
+  bottom: 16px;
+  display: block;
+  font-family: 'Fira Mono', monospace;
+  font-size: 8px;
+  font-weight: 400;
+  height: 12px;
+  line-height: 12px;
+  left: 0;
+  position: absolute;
+  width: auto;
+  z-index: 3;
+}
+
+.page-map-legend-item {
+  background: transparent !important;
+  color: var(--fg-color) !important;
+  display: block;
+  flex: 0 0 auto;
+  font-family: 'Fira Mono', monospace;
+  font-size: 8px;
+  font-weight: 400;
+  height: 16px;
+  line-height: 16px;
+  padding: 0 2px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.page-map-legend-item::after {
+  background: var(--fg-color);
+  border-radius: 50%;
+  content: '';
+  display: block;
+  height: 6px;
+  left: 50%;
+  position: absolute;
+  top: 100%;
+  transform: translate3d(-50%, 0, 0);
+  width: 6px;
+}
+
+.page-map-legend-item.level-0::after {
+  background: var(--base-scale0-color);
+}
+
+.page-map-legend-item.level-1::after {
+  background: var(--base-scale2-color);
+}
+
+.page-map-legend-item.level-2::after {
+  background: var(--base-scale4-color);
+}
+
+.page-map-legend-item.level-3::after {
+  background: var(--base-scale5-color);
+}
+
+.page-map-legend-item.level-4::after {
+  background: var(--base-scale6-color);
+}
+
+.page-map-legend-item.level-neutral::after {
+  background: var(--neutral-color);
+}
+
 .page-map-chart {
   bottom: 30px;
   display: block;
