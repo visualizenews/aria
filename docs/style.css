@@ -107,7 +107,7 @@ body {
   display: block;
   flex: 0 0 50%;
   height: auto;
-  margin: 0 0 20px 0;
+  margin: 0 0 30px 0;
   max-width: 50%;
   position: relative;
   width: auto;
@@ -406,7 +406,7 @@ body {
 }
 
 .page-title {
-  margin: 0 0 20px 0;
+  margin: 0 0 30px 0;
 }
 
 .page-title h2 {
@@ -424,7 +424,7 @@ body {
 }
 
 .page-text {
-  margin: 0 40px 20px 40px;
+  margin: 0 40px 30px 40px;
 }
 
 .page-text p {
@@ -462,7 +462,7 @@ body {
 
 .page-charts {
   display: block;
-  margin: 0 40px;
+  margin: 0 40px 30px 40px;
   overflow: hidden;
 }
 
@@ -470,7 +470,7 @@ body {
   font-size: 8px;
   font-weight: 900;
   letter-spacing: 2px;
-  margin: 0 0 20px 0;
+  margin: 0 0 30px 0;
   text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
@@ -479,7 +479,7 @@ body {
 
 .page-chart {
   height: auto;
-  margin: 0 -10px 20px -10px;
+  margin: 0 -10px 10px -10px;
   overflow: hidden;
 }
 
