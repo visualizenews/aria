@@ -94,6 +94,7 @@ const DAYS = 30;
   let substances = [];
   const maps = [];
   const charts = [];
+  const candlesticks = [];
 
   const reset = () => {
     const $chartContainers = document.querySelectorAll('.page-chart-container');
@@ -373,6 +374,7 @@ const DAYS = 30;
       })
       .then(jsonData => {
         if (!jsonData.error) {
+          document.querySelector('#loadingMessage').innerHTML = 'Dati caricati, stiamo disegnando le mappe e i grafici.';
           prepareData(jsonData);
           drawMaps();
           drawChartsContainers();
@@ -385,12 +387,12 @@ const DAYS = 30;
               locationOfStations += ', ';
             }
           });
-          console.log(locationOfStations);
           document.querySelectorAll('.writeDays').forEach(e => { e.innerHTML = DAYS });
           document.querySelector('#numberOfStations').innerHTML = STATIONS.length;
           document.querySelectorAll('.locationOfStations').forEach(e => { e.innerHTML = locationOfStations });
           document.querySelector('#date').innerHTML = moment(rawData[0].data).format('DD/MM/YYYY');
-          document.querySelector('body').classList.remove('loading');
+          document.querySelector('body').classList.add('exit');
+          setTimeout(() => { document.querySelector('body').classList.remove('loading'); alert('t'); }, 250000);
         } else {
           alert('Error loading data');
           throw new Error('Error Loading Data', jsonData.message);

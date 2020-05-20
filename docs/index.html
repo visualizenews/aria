@@ -11,15 +11,35 @@
     <meta name="description" content="Un semplice modo per scoprire com'è l'aria a Milano tramite una data visualization degli inquinanti atmosferici rilevati da ARPA Lombardia">
     <meta name="keywords" content="inquinamento, inquinamento atmosferico, milano, lombardia, dati">
     <style>
+      @keyframes loader {
+        0% {
+          background: #44C08A;
+        }
+        20% {
+          background: #FFC954;
+        }
+        40% {
+          background: #F36C57;
+        }
+        60% {
+          background: #D74364;
+        }
+        80% {
+          background: #AD2370;
+        }
+      }
+
       #loading {
         background: #E6F4F1;
         bottom: 0;
         display: none;
         height: auto;
         left: 0;
+        opacity: 0;
         position: fixed;
         right: 0;
         top: 0;
+        transition: opacity .2s ease-in-out;
         width: auto;
         z-index: -1;
       }
@@ -29,6 +49,24 @@
         position: absolute;
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
+      }
+
+      #loading  div:before {
+        animation-name: loader;
+        animation-direction: alternate;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        border-radius: 50%;
+        content: '';
+        display: block;
+        height: 280px;
+        left: 50%;
+        mix-blend-mode: multiply;
+        position: absolute;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        width: 280px;
       }
 
       #loading h1 {
@@ -45,11 +83,19 @@
         font-size: 16px;
         font-weight: 400;
         line-height: 1.5;
+        margin: 0;
         text-align: center;
       }
 
       body.loading #loading {
         display: block;
+        opacity: 1;
+        z-index: 999999;
+      }
+
+      body.loading.exit #loading {
+        display: block;
+        opacity: 0;
         z-index: 999999;
       }
     </style>
@@ -57,6 +103,12 @@
     <link href="style.css" rel="stylesheet">
   </head>
   <body class="loading">
+    <div id="loading">
+      <div>
+        <h1>L'aria di Milano</h1>
+        <p id="loadingMessage">Stiamo caricando i dati più recenti riguardo la qualità dell'aria a Milano.</p>
+      </div>
+    </div>
     <header class="page-header">
       <h1>L'aria di Milano</h1>
       <div class="page-title page-title-light"><h2>Dati del <span id="date"></span></h2></div>
@@ -65,6 +117,9 @@
       
     </div>
     <div class="page-title"><h2>Ultimi <span class="writeDays"></span> giorni</h2></div>
+    <div class="page-charts" id="page-candlesticks">
+
+    </div>
 
     <div class="page-title"><h2>Le centraline</h2></div>
     <div class="page-text">
@@ -76,12 +131,6 @@
     <footer class="page-footer">
       <a href="https://www.esa.int/ESA_Multimedia/Images/2015/06/Milan_Italy">Satellite image</a> &copy; <a href="https://www.esa.int/">ESA</a>.
     </footer>
-    <div id="loading">
-      <div>
-        <h1>L'aria di Milano</h1>
-        <p>Stiamo caricando i dati più recenti riguardo la qualità dell'aria a Milano.</p>
-      </div>
-    </div>
     <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0,npm/moment@2.24.0/locale/it.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-array/1.2.2/d3-array.min.js" integrity="sha256-DXTo8QSnE30b4PAWKzi7e214vsBCEyE2IuVj8X7aa+g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-collection/1.0.5/d3-collection.min.js" integrity="sha256-xNoiuWVd276HB67QUPDhHjeUcJnnFnjoQlGSV5iQEiM=" crossorigin="anonymous"></script>
