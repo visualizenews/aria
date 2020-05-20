@@ -715,16 +715,70 @@ body {
   z-index: 3;
 }
 
-.page-candlestick-point {
-  border-radius: 0;
-  height: 1px;
-  width: 3px;
-}
-
 .page-candlestick-point-connector {
   background: var(--ac0-color);
   display: block;
   position: absolute;
   transform: translate3d(-50%, 0, 0);
-  width: 1px;
+  width: 3px;
+}
+
+.page-candlestick-point-connector.level-0-level-0 {
+  background: var(--base-scale0-color);
+}
+
+.page-candlestick-point-connector.level-1-level-1 {
+  background: var(--base-scale2-color);
+}
+
+.page-candlestick-point-connector.level-2-level-2 {
+  background: var(--base-scale4-color);
+}
+
+.page-candlestick-point-connector.level-3-level-3 {
+  background: var(--base-scale5-color);
+}
+
+.page-candlestick-point-connector.level-4-level-4 {
+  background: var(--base-scale6-color);
+}
+
+.page-candlestick-point-connector.level-1-level-0 {
+  background: linear-gradient(to bottom, var(--base-scale2-color) 0%, var(--base-scale0-color) 100%);
+}
+
+.page-candlestick-point-connector.level-2-level-0 {
+  background: linear-gradient(to bottom, var(--base-scale4-color) 0%, var(--base-scale0-color) 100%);
+}
+
+.page-candlestick-point-connector.level-3-level-0 {
+  background: linear-gradient(to bottom, var(--base-scale5-color) 0%, var(--base-scale0-color) 100%);
+}
+
+.page-candlestick-point-connector.level-4-level-0 {
+  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale0-color) 100%);
+}
+
+.page-candlestick-point-connector.level-2-level-1 {
+  background: linear-gradient(to bottom, var(--base-scale4-color) 0%, var(--base-scale2-color) 100%);
+}
+
+.page-candlestick-point-connector.level-3-level-1 {
+  background: linear-gradient(to bottom, var(--base-scale5-color) 0%, var(--base-scale2-color) 100%);
+}
+
+.page-candlestick-point-connector.level-4-level-1 {
+  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale2-color) 100%);
+}
+
+.page-candlestick-point-connector.level-3-level-2 {
+  background: linear-gradient(to bottom, var(--base-scale5-color) 0%, var(--base-scale4-color) 100%);
+}
+
+.page-candlestick-point-connector.level-4-level-2 {
+  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale4-color) 100%);
+}
+
+.page-candlestick-point-connector.level-4-level-3 {
+  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale5-color) 100%);
 }

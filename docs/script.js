@@ -212,11 +212,9 @@ const DAYS = 30;
         }
       });
     });
-    console.log('candlesticks', candlesticks);
     candlesticks.forEach((ch, j) => {
       const $container = document.querySelector(`#page-candlestick-container-${ch.id}`);
       if ($container) {
-        console.log(ch);
         let html = '';
         const chartWidth = $container.offsetWidth;
         const chartHeight = $container.offsetHeight;
@@ -247,10 +245,10 @@ const DAYS = 30;
           }
           // Points
           if (d.y1 > -1 && d.y2 > -1) {
-            html += `<div class="page-candlestick-point" style="top: ${pointY1Pos}px; left: ${xPos}px"></div>`;
-            html += `<div class="page-candlestick-point" style="top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
-            if (d.y1 !== d.y2) {
-              html += `<div class="page-candlestick-point-connector" style="height: ${pointY1Pos - pointY2Pos}px; top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
+            html += `<div class="page-candlestick-point ${d.className1}" style="top: ${pointY1Pos}px; left: ${xPos}px"></div>`;
+            html += `<div class="page-candlestick-point ${d.className2}" style="top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
+            if (Math.abs(pointY1Pos - pointY2Pos) > 3) {
+              html += `<div class="page-candlestick-point-connector ${d.className2}-${d.className1}" style="height: ${pointY1Pos - pointY2Pos}px; top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
             }
           }
         });
@@ -393,12 +391,44 @@ const DAYS = 30;
             const days = Object.keys(allCandleStickData);
             days.forEach(d => {
               const values = allCandleStickData[d].map(acd => acd.valore).filter(acd => acd !== null);
-              console.log(d, key, allCandleStickData[d], values);
+              const y1 = (values.length) ? Math.min(...values) : -1;
+              const y2 = (values.length) ? Math.max(...values) : -1;
+              let className1 = 'level-neutral';
+              let className2 = 'level-neutral';
+              const top = SUBS[key].limits.length;
+              if (y1 > SUBS[key].limits[top - 1]) {
+                level = `level-${top}`;
+              } else {
+                let k = 0;
+                let found = false;
+                while (!found && k < top) {
+                  if (y1 <= SUBS[key].limits[k]) {
+                    found = true;
+                    className1 = `level-${k}`;
+                  }
+                  k++;
+                }
+              }
+              if (y2 > SUBS[key].limits[top - 1]) {
+                level = `level-${top}`;
+              } else {
+                let k = 0;
+                let found = false;
+                while (!found && k < top) {
+                  if (y2 <= SUBS[key].limits[k]) {
+                    found = true;
+                    className2 = `level-${k}`;
+                  }
+                  k++;
+                }
+              }
               cData.push({
                 date: moment(d).format('YYYY-MM-DDTHH:mm:ss'),
                 x: moment(d).valueOf(),
-                y1: (values.length) ? Math.min(...values) : -1,
-                y2: (values.length) ? Math.max(...values) : -1,
+                y1,
+                className1,
+                y2,
+                className2,
               });
             });
             return cData;
@@ -501,12 +531,12 @@ const DAYS = 30;
           throw new Error('Error Loading Data', jsonData.message);
         }
       })
-      .catch(
-        e => {
-          alert('Error loading data');
-          throw new Error('Error Loading Data', e);
-        }
-      );
+      // .catch(
+      //   e => {
+      //     alert('Error loading data');
+      //     throw new Error('Error Loading Data', e);
+      //   }
+      // );
   }
 
   const ready = () => {
