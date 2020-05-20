@@ -204,8 +204,8 @@ const DAYS = 30;
     maps.forEach(m => {
       html += `<div class="page-map page-map-${m.index}" data-sub="${m.id}" id="page-map-${m.id}">`;
       html += `<div class="page-map-title"><h2>${m.label}</h2></div>`;
-      html += `<div class="page-map-legend-unit">${SUBS[m.id].unit}</div>`
       html += `<div class="page-map-legend">`;
+      html += `<div class="page-map-legend-item level-unit">${SUBS[m.id].unit}</div>`;
       SUBS[m.id].limits.forEach((l, i) => {
           html += `<div class="page-map-legend-item level-${i}"><${l}</div>`;
       });
