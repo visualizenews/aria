@@ -460,12 +460,14 @@ body {
   width: 14px;
 }
 
+.page-candlesticks,
 .page-charts {
   display: block;
   margin: 0 40px 30px 40px;
   overflow: hidden;
 }
 
+.page-candlestick-title h2,
 .page-chart-title h2 {
   font-size: 8px;
   font-weight: 900;
@@ -477,12 +479,14 @@ body {
   width: auto;
 }
 
+.page-candlestick,
 .page-chart {
   height: auto;
   margin: 0 -10px 10px -10px;
   overflow: hidden;
 }
 
+.page-candlestick .page-candlestick-scroller,
 .page-chart .page-chart-scroller {
   display: flex;
   flex-direction: row;
@@ -495,6 +499,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+.page-candlestick .page-candlestick-wrapper,
 .page-chart .page-chart-wrapper {
   display: block;
   flex: 0 0 70vw;
@@ -504,11 +509,13 @@ body {
   position: relative;
 }
 
+.page-candlestick .page-candlestick-wrapper:only-child,
 .page-chart .page-chart-wrapper:only-child {
   flex: 0 0 100%;
   max-width: 100%;
 }
 
+.page-candlestick .page-candlestick-wrapper-inner,
 .page-chart .page-chart-wrapper-inner {
   /* background: var(--neutral-color); */
   display: block;
@@ -517,6 +524,7 @@ body {
   width: 100%;
 }
 
+.page-candlestick .page-candlestick-wrapper-title,
 .page-chart .page-chart-wrapper-title {
   display: block;
   left: 0;
@@ -525,6 +533,7 @@ body {
   top: 0;
 }
 
+.page-candlestick .page-candlestick-wrapper-title h3,
 .page-chart .page-chart-wrapper-title h3 {
   display: block;
   font-size: 10px;
@@ -536,6 +545,7 @@ body {
   z-index: 2;
 }
 
+.page-candlestick .page-candlestick-container,
 .page-chart .page-chart-container {
   bottom: 0;
   display: block;
@@ -546,6 +556,7 @@ body {
   z-index: 1;
 }
 
+.page-candlestick .page-candlestick-container.no-data::after,
 .page-chart .page-chart-container.no-data::after {
   color: var(--ac4-color);
   content: 'Dato Non Disponibile';
@@ -559,6 +570,7 @@ body {
   white-space: nowrap;
 }
 
+.page-candlestick .page-candlestick-x-axis-thick,
 .page-chart .page-chart-x-axis-thick {
   background-color: var(--ac4-color);
   display: block;
@@ -569,10 +581,12 @@ body {
   z-index: 1;
 }
 
+.page-candlestick .page-candlestick-x-axis-thick-highlight,
 .page-chart .page-chart-x-axis-thick-highlight {
   height: 6px;
 }
 
+.page-candlestick .page-candlestick-y-axis-thick,
 .page-chart .page-chart-y-axis-thick {
   background-color: var(--fg-color);
   display: none;
@@ -583,6 +597,7 @@ body {
   z-index: 1;
 }
 
+.page-candlestick .page-candlestick-x-axis-label,
 .page-chart .page-chart-x-axis-label {
   bottom: 0;
   color: var(--fg-color);
@@ -601,14 +616,17 @@ body {
   z-index: 1;
 }
 
+.page-candlestick .page-candlestick-x-axis-label:last-of-type,
 .page-chart .page-chart-x-axis-label:last-of-type {
   transform: translate3d(-100%, 0, 0);
 }
 
+.page-candlestick .page-candlestick-x-axis-label:first-of-type,
 .page-chart .page-chart-x-axis-label:first-of-type {
   transform: translate3d(0, 0, 0);
 }
 
+.page-candlestick .page-candlestick-y-axis-marker,
 .page-chart .page-chart-y-axis-marker {
   background-color: var(--fg-color);
   display: block;
@@ -620,6 +638,7 @@ body {
   z-index: 1;
 }
 
+.page-candlestick .page-candlestick-y-axis-marker,
 .page-chart .page-chart-y-axis-marker {
   background-color: var(--fg-color);
   display: block;
@@ -633,6 +652,7 @@ body {
 }
 
 
+.page-candlestick .page-candlestick-y-axis-marker-label,
 .page-chart .page-chart-y-axis-marker-label {
   background-color: transparent !important;
   display: block;
@@ -647,26 +667,32 @@ body {
   z-index: 2;
 }
 
+.page-candlestick .page-candlestick-y-axis-marker-label.level-0,
 .page-chart .page-chart-y-axis-marker-label.level-0 {
   color: var(--base-scale0-color);
 }
 
+.page-candlestick .page-candlestick-y-axis-marker-label.level-1,
 .page-chart .page-chart-y-axis-marker-label.level-1 {
   color: var(--base-scale3-color);
 }
 
+.page-candlestick .page-candlestick-y-axis-marker-label.level-2,
 .page-chart .page-chart-y-axis-marker-label.level-2 {
   color: var(--base-scale4-color);
 }
 
+.page-candlestick .page-candlestick-y-axis-marker-label.level-3,
 .page-chart .page-chart-y-axis-marker-label.level-3 {
   color: var(--base-scale5-color);
 }
 
+.page-candlestick .page-candlestick-y-axis-marker-label.level-4,
 .page-chart .page-chart-y-axis-marker-label.level-4 {
   color: var(--base-scale6-color);
 }
 
+.page-candlestick-y-axis-label,
 .page-chart-y-axis-label {
   display: none;
   font-size: 10px;
@@ -677,6 +703,7 @@ body {
   transform: translate3d(-100%, -50%, 0);
 }
 
+.page-candlestick-point,
 .page-chart-point {
   background: var(--ac0-color);
   border-radius: 50%;
@@ -686,4 +713,18 @@ body {
   transform: translate3d(-50%, -50%, 0);
   width: 5px;
   z-index: 3;
+}
+
+.page-candlestick-point {
+  border-radius: 0;
+  height: 1px;
+  width: 3px;
+}
+
+.page-candlestick-point-connector {
+  background: var(--ac0-color);
+  display: block;
+  position: absolute;
+  transform: translate3d(-50%, 0, 0);
+  width: 1px;
 }

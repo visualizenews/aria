@@ -90,6 +90,7 @@ const DAYS = 30;
 (() => {
   const $mapContainer = document.querySelector('#page-maps');
   const $chartContainer = document.querySelector('#page-charts');
+  const $candlestickContainer = document.querySelector('#page-candlesticks');
   let rawData = [];
   let substances = [];
   const maps = [];
@@ -98,9 +99,9 @@ const DAYS = 30;
 
   const reset = () => {
     const $chartContainers = document.querySelectorAll('.page-chart-container');
-    const $mapChartContainers = document.querySelectorAll('.page-map-chart-inner');
+    const $candlestickContainers = document.querySelectorAll('.page-candlestick-container');
     $chartContainers.forEach($c => { $c.innerHTML = '' });
-    $mapChartContainers.forEach($c => { $c.innerHTML = '' });
+    $candlestickContainers.forEach($c => { $c.innerHTML = '' });
     drawCharts();
   };
 
@@ -111,7 +112,7 @@ const DAYS = 30;
         return cf.data.find(cff => cff.y > -1);
       });
       if (hasData) {
-        html += `<div class="page-chart page-chart-${c.id}" data-station="${c.id}" id="page-chart-${c.id}">`;
+        html += `<div class="page-chart page-chart-${c.id}" id="page-chart-${c.id}">`;
         html += `<div class="page-chart-title"><h2>${c.id} - ${c.title}</h2></div>`
         html += '<div class="page-chart-scroller">';
         c.charts.forEach((ch, j) => {
@@ -125,8 +126,21 @@ const DAYS = 30;
         html += '</div>'
         html += '</div>';
       }
-    })
+    });
     $chartContainer.innerHTML = html;
+
+    html = '';
+    html += `<div class="page-candlestick">`;
+    html += '<div class="page-candlestick-scroller">';
+    candlesticks.forEach((c, i) => {
+      html += `<div class="page-candlestick-wrapper"><div class="page-candlestick-wrapper-inner">
+      <div class="page-candlestick-wrapper-title"><h3>${c.label}</h3></div>
+        <div class="page-candlestick-container" id="page-candlestick-container-${c.id}"></div>
+      </div></div>`;
+    });
+    html += '</div>'
+    html += '</div>';
+    $candlestickContainer.innerHTML = html;
   };
 
   const drawCharts = () => {
@@ -198,6 +212,67 @@ const DAYS = 30;
         }
       });
     });
+    console.log('candlesticks', candlesticks);
+    candlesticks.forEach((ch, j) => {
+      const $container = document.querySelector(`#page-candlestick-container-${ch.id}`);
+      if ($container) {
+        console.log(ch);
+        let html = '';
+        const chartWidth = $container.offsetWidth;
+        const chartHeight = $container.offsetHeight;
+        const x = d3.scaleLinear()
+          .domain(d3.extent(ch.data, d => d.x))
+          .range([MARGINS[3], chartWidth - MARGINS[1]]);
+        const allYValues = SUBS[ch.key].limits
+          .concat(d3.extent(ch.data, d => d.y2));
+        allYValues.push(0);
+        const uniqueYValues = allYValues.filter( (item, index) => (item > -1 && allYValues.indexOf(item) === index)).sort();
+        const y = d3.scaleLinear()
+          .domain([0, Math.max(...uniqueYValues)])
+          .range([chartHeight - MARGINS[2], MARGINS[0]]);
+
+        
+        ch.data.forEach(d => {
+          // X-Axis
+          const xPos = x(d.x);
+          const yPos = chartHeight - 20;
+          const pointY1Pos = y(d.y1);
+          const pointY2Pos = y(d.y2);
+          const date = moment(d.date);
+          // Thicks
+          html += `<div class="page-candlestick-x-axis-thick ${(date.day() === 1) ? 'page-candlestick-x-axis-thick-highlight' : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
+          // Labels
+          if (date.day() === 1) {
+            html += `<div class="page-candlestick-x-axis-label" style="left: ${xPos}px;">${(screenSize === 'S') ? date.format('D/MM') : date.format('dd D/MM')}</div>`;
+          }
+          // Points
+          if (d.y1 > -1 && d.y2 > -1) {
+            html += `<div class="page-candlestick-point" style="top: ${pointY1Pos}px; left: ${xPos}px"></div>`;
+            html += `<div class="page-candlestick-point" style="top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
+            if (d.y1 !== d.y2) {
+              html += `<div class="page-candlestick-point-connector" style="height: ${pointY1Pos - pointY2Pos}px; top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
+            }
+          }
+        });
+        // Y-Axis
+        uniqueYValues.forEach(u => {
+          const xPos = 20;
+          const x2Pos = chartWidth - 20;
+          const yPos = y(u);
+          const level = SUBS[ch.key].limits.indexOf(u);
+          // Markers
+          if (level > -1) {
+            html += `<div class="page-candlestick-y-axis-marker level-${level}" style="top: ${yPos}px;"></div>`;
+            html += `<div class="page-candlestick-y-axis-marker-label level-${level}" style="top: ${yPos}px;">${u} <span>${((level === (SUBS[ch.key].limits.length - 1)) ? SUBS[ch.key].unit : '')}</span></div>`;
+          } else if (u > 0) {
+            // Thicks
+            html += `<div class="page-candlestick-y-axis-thick ${(level > -1) ? 'level-' + level : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
+            html += `<div class="page-candlestick-y-axis-label" style="top: ${yPos}px;">${u}</div>`;
+          }
+        });
+        $container.innerHTML = html;
+      }
+    });
   };
 
   const drawMaps = () => {
@@ -236,7 +311,7 @@ const DAYS = 30;
     const keys = Object.keys(SUBS);
     keys.forEach((key, i) => {
       if (substances.indexOf(key) > -1) {
-        const sorted = rawData.filter(d => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key)).sort((a, b) => b.valore - a.valore);
+        const sorted = rawData.filter(d => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key));
         maps.push({
           id: key,
           index: i,
@@ -298,6 +373,35 @@ const DAYS = 30;
               });
             });
             return markers;
+          })(),
+        });
+        let currentDay = moment(rawData[0].data);
+        let allCandleStickData = {};
+        while (currentDay.valueOf() >= lastDay.valueOf()) {
+          allCandleStickData[moment(currentDay).format('YYYY-MM-DD')] = rawData.filter(d => (d.data === currentDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key));
+          currentDay.subtract(1, 'days');
+        }
+        candlesticks.push({
+          id: key,
+          key,
+          index: i,
+          label: SUBS[key].name,
+          code: SUBS[key].code,
+          limits: SUBS[key].limits,
+          data: (() => {
+            const cData = [];
+            const days = Object.keys(allCandleStickData);
+            days.forEach(d => {
+              const values = allCandleStickData[d].map(acd => acd.valore).filter(acd => acd !== null);
+              console.log(d, key, allCandleStickData[d], values);
+              cData.push({
+                date: moment(d).format('YYYY-MM-DDTHH:mm:ss'),
+                x: moment(d).valueOf(),
+                y1: (values.length) ? Math.min(...values) : -1,
+                y2: (values.length) ? Math.max(...values) : -1,
+              });
+            });
+            return cData;
           })(),
         });
       }
@@ -391,12 +495,13 @@ const DAYS = 30;
           document.querySelectorAll('.locationOfStations').forEach(e => { e.innerHTML = locationOfStations });
           document.querySelector('#date').innerHTML = moment(rawData[0].data).format('DD/MM/YYYY');
           document.querySelector('body').classList.add('exit');
-          setTimeout(() => { document.querySelector('body').classList.remove('loading'); document.querySelector('body').classList.remove('exit'); }, 750);
+          setTimeout(() => { document.querySelector('body').classList.remove('loading'); document.querySelector('body').classList.remove('exit'); }, 501);
         } else {
           alert('Error loading data');
           throw new Error('Error Loading Data', jsonData.message);
         }
-      }).catch(
+      })
+      .catch(
         e => {
           alert('Error loading data');
           throw new Error('Error Loading Data', e);
