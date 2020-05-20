@@ -11,24 +11,6 @@
     <meta name="description" content="Un semplice modo per scoprire com'è l'aria a Milano tramite una data visualization degli inquinanti atmosferici rilevati da ARPA Lombardia">
     <meta name="keywords" content="inquinamento, inquinamento atmosferico, milano, lombardia, dati">
     <style>
-      @keyframes loader {
-        0% {
-          background: #44C08A;
-        }
-        20% {
-          background: #FFC954;
-        }
-        40% {
-          background: #F36C57;
-        }
-        60% {
-          background: #D74364;
-        }
-        80% {
-          background: #AD2370;
-        }
-      }
-
       #loading {
         background: #E6F4F1;
         bottom: 0;
@@ -39,7 +21,7 @@
         position: fixed;
         right: 0;
         top: 0;
-        transition: opacity .2s ease-in-out;
+        transition: opacity .5s .25s ease-in;
         width: auto;
         z-index: -1;
       }
@@ -52,11 +34,7 @@
       }
 
       #loading  div:before {
-        animation-name: loader;
-        animation-direction: alternate;
-        animation-duration: 2.5s;
-        animation-iteration-count: infinite;
-        animation-timing-function: ease-in-out;
+        background-color: #FFC954;
         border-radius: 50%;
         content: '';
         display: block;
@@ -66,6 +44,7 @@
         position: absolute;
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
+        transition: background-color .25s ease-in;
         width: 280px;
       }
 
@@ -97,6 +76,10 @@
         display: block;
         opacity: 0;
         z-index: 999999;
+      }
+
+      body.loading.exit #loading div:before {
+        background-color: #44C08A;
       }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Montserrat:wght@200;400;700;900&display=swap" rel="stylesheet">
