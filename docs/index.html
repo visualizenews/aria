@@ -10,6 +10,49 @@
     <title>L'aria di Milano - Visualize News</title>
     <meta name="description" content="Un semplice modo per scoprire com'è l'aria a Milano tramite una data visualization degli inquinanti atmosferici rilevati da ARPA Lombardia">
     <meta name="keywords" content="inquinamento, inquinamento atmosferico, milano, lombardia, dati">
+    <style>
+      #loading {
+        background: #E6F4F1;
+        bottom: 0;
+        display: none;
+        height: auto;
+        left: 0;
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: auto;
+        z-index: -1;
+      }
+
+      #loading div {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+      }
+
+      #loading h1 {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 2px;
+        margin: 0 0 10px 0;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      #loading p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: center;
+      }
+
+      body.loading #loading {
+        display: block;
+        z-index: 999999;
+      }
+    </style>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Montserrat:wght@200;400;700;900&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
   </head>
@@ -21,14 +64,24 @@
     <div class="page-maps" id="page-maps">
       
     </div>
-    <div class="page-title"><h2>Ultimi <span id="days"></span> giorni</h2></div>
+    <div class="page-title"><h2>Ultimi <span class="writeDays"></span> giorni</h2></div>
+
+    <div class="page-title"><h2>Le centraline</h2></div>
+    <div class="page-text">
+      <p>Le centraline di rilevamento all'interno del comune di milano sono <span id="numberOfStations"></span>, tutte gestite da <a href="https://www.arpalombardia.it/" target="_arpa">ARPA Lombardia</a>. Sono localizzate in <span class="locationOfStations"></span>, ma non tutte risultano essere sempre online, o con sensori attivi per tutti gli inquinanti. I grafici che seguono mostrano solo le centraline con dati disponibili negli ultimi <strong><span class="writeDays"></span> giorni</strong>.</p>
+    </div>
+    
     <div class="page-charts" id="page-charts">
-      
     </div>
     <footer class="page-footer">
       <a href="https://www.esa.int/ESA_Multimedia/Images/2015/06/Milan_Italy">Satellite image</a> &copy; <a href="https://www.esa.int/">ESA</a>.
     </footer>
-    </footer>
+    <div id="loading">
+      <div>
+        <h1>L'aria di Milano</h1>
+        <p>Stiamo caricando i dati più recenti riguardo la qualità dell'aria a Milano.</p>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0,npm/moment@2.24.0/locale/it.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-array/1.2.2/d3-array.min.js" integrity="sha256-DXTo8QSnE30b4PAWKzi7e214vsBCEyE2IuVj8X7aa+g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-collection/1.0.5/d3-collection.min.js" integrity="sha256-xNoiuWVd276HB67QUPDhHjeUcJnnFnjoQlGSV5iQEiM=" crossorigin="anonymous"></script>

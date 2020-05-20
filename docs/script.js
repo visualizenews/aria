@@ -129,7 +129,7 @@ const DAYS = 30;
   };
 
   const drawCharts = () => {
-    let screenSize = 'S';    
+    let screenSize = 'S';
     if (window.matchMedia('screen and (min-width:1280px)').matches) {
       screenSize = 'XL';
     } else if (window.matchMedia('screen and (min-width:1024px)').matches) {
@@ -378,7 +378,17 @@ const DAYS = 30;
           drawChartsContainers();
           window.addEventListener('resize', reset);
           reset();
-          document.querySelector('#days').innerHTML = DAYS;
+          let locationOfStations = '';
+          STATIONS.forEach((s,i) => {
+            locationOfStations += `<span class="stationId">${s.id}</span> <strong>${s.name}</strong>`;
+            if (i < STATIONS.length - 1) {
+              locationOfStations += ', ';
+            }
+          });
+          console.log(locationOfStations);
+          document.querySelectorAll('.writeDays').forEach(e => { e.innerHTML = DAYS });
+          document.querySelector('#numberOfStations').innerHTML = STATIONS.length;
+          document.querySelectorAll('.locationOfStations').forEach(e => { e.innerHTML = locationOfStations });
           document.querySelector('#date').innerHTML = moment(rawData[0].data).format('DD/MM/YYYY');
           document.querySelector('body').classList.remove('loading');
         } else {
