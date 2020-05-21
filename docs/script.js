@@ -452,40 +452,31 @@ const DAYS = 30;
               key: key,
               data: (() => {
                 const data = [];
-                let currentDay = moment(rawData[0].data);
-                while (currentDay.valueOf() >= lastDay.valueOf()) {
-                  const currentData = rawData.find(d => (d.data === currentDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key && d.stazione_id === s.id));
-                  if (currentData) {
+                const currentData = rawData.filter(d => (d.inquinante.toUpperCase() === key && d.stazione_id === s.id && d.valore !== null && moment(d.data).valueOf() >= lastDay.valueOf()));
+                if (currentData && currentData.length) {
+                  currentData.forEach(cd => {
                     data.push({
-                      date: moment(currentData.data).format('YYYY-MM-DD'),
-                      x: moment(currentData.data).valueOf(),
-                      y: currentData.valore || -1,
+                      date: moment(cd.data).format('YYYY-MM-DD'),
+                      x: moment(cd.data).valueOf(),
+                      y: cd.valore || -1,
                       className: (() => {
-                        if (currentData.valore === null) {
+                        if (cd.valore === null) {
                           return 'level-neutral';
                         }
                         let k = 0;
                         const top = SUBS[key].limits.length;
-                        if (currentData.valore > SUBS[key].limits[top - 1]) {
+                        if (cd.valore > SUBS[key].limits[top - 1]) {
                           return `level-${top}`;
                         }
                         while (k < top) {
-                          if (currentData.valore <= SUBS[key].limits[k]) {
+                          if (cd.valore <= SUBS[key].limits[k]) {
                             return `level-${k}`;
                           }
                           k++;
                         }
                       })()
                     });
-                  } else {
-                    data.push({
-                      date: currentDay.format('YYYY-MM-DD'),
-                      x: currentDay.valueOf(),
-                      y: -1,
-                      className: 'level-neutral',
-                    });
-                  }
-                  currentDay.subtract(1, 'days');
+                  });
                 }
                 return data;
               })(),

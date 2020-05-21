@@ -6,11 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#00C2FF">
+    <meta name="theme-color" content="#E6F4F1">
     <title>L'aria di Milano - Visualize News</title>
     <meta name="description" content="Un semplice modo per scoprire com'è l'aria a Milano tramite una data visualization degli inquinanti atmosferici rilevati da ARPA Lombardia">
     <meta name="keywords" content="inquinamento, inquinamento atmosferico, milano, lombardia, dati">
     <style>
+      @keyframes ball {
+        0% {
+          background-color: #44C08A;
+        }
+        20% {
+          background-color: #FFC954;
+        }
+        40% {
+          background-color: #FF9A4F;
+        }
+        60% {
+          background-color: #F36C57;
+        }
+        80% {
+          background-color: #D74364;
+        }
+        100% {
+          background-color: #AD2370;
+        }
+      }
+
       #loading {
         background: #E6F4F1;
         bottom: 0;
@@ -35,7 +56,12 @@
       }
 
       #loading  div:before {
-        background-color: #FFC954;
+        animation-direction: alternate;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        animation-name: ball;
+        animation-timing-function: ease-in-out;
+        background-color: #44C08A;
         border-radius: 50%;
         content: '';
         display: block;
@@ -100,7 +126,7 @@
     </div>
     <div class="page-title"><h2>Ultimi <span class="writeDays"></span> giorni</h2></div>
     <div class="page-text">
-      <p>Nei grafici seguenti è possibile vedere l'andamento di caiscuna sostanza inquinante nel corso dell'ultimo mese. Per ogni giorno sono mostrati i valori maggiore e minore.</p>
+      <p>Nei grafici seguenti è possibile vedere l'andamento di ciascuna sostanza inquinante nel corso dell'ultimo mese. Per ogni giorno sono mostrati i valori massimo e minimo.</p>
     </div>
     <div class="page-candlesticks" id="page-candlesticks">
 
