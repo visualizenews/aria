@@ -23,6 +23,27 @@
   --chart-invisible-color: #dbeae9;
 }
 
+@keyframes arrow {
+  0% {
+    color: var(--ac0-color);
+  }
+  20% {
+    color: var(--ac1-color);
+  }
+  40% {
+    color: var(--ac2-color);
+  }
+  60% {
+    color: var(--ac3-color);
+  }
+  80% {
+    color: var(--ac4-color);
+  }
+  100% {
+    color: var(--ac3-color);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -496,7 +517,7 @@ body {
   height: 190px;
   overflow-x: auto;
   overflow-y: hidden;
-  scroll-padding: 0 15vw;
+  scroll-padding: 0 20px;
   scroll-snap-type: x mandatory;
   width: auto;
   -webkit-overflow-scrolling: touch;
@@ -505,16 +526,44 @@ body {
 .page-candlestick .page-candlestick-wrapper,
 .page-chart .page-chart-wrapper {
   display: block;
-  flex: 0 0 100vw;
+  flex: 0 0 80vw;
   height: 160px;
-  max-width: 100vw;
-  padding: 0 15vw;
+  max-width: 80vw;
+  padding: 0 40px;
   position: relative;
 }
 
-.page-candlestick .page-candlestick-wrapper:last-child,
-.page-chart .page-chart-wrapper:last-child {
-  margin-right: 15vw;
+.page-candlestick .page-candlestick-wrapper:after,
+.page-chart .page-chart-wrapper:after {
+  animation-direction: alternate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: arrow;
+  animation-timing-function: ease-in-out;
+  content: '⟩⟩';
+  display: block;
+  font-size: 18px;
+  height: 30px;
+  letter-spacing: 0.001em;
+  line-height: 30px;
+  position: absolute;
+  right: -15px;
+  text-align: center;
+  top: 50%;
+  transform: translate3d(0, -50%, 0);
+  width: 30px;
+}
+
+.page-candlestick .page-candlestick-wrapper:first-child:before,
+.page-chart .page-chart-wrapper:first-child:before,
+.page-candlestick .page-candlestick-wrapper:only-child:before,
+.page-chart .page-chart-wrapper:only-child:before,
+.page-candlestick .page-candlestick-wrapper:last-child:after,
+.page-chart .page-chart-wrapper:last-child:after,
+.page-candlestick .page-candlestick-wrapper:only-child:after,
+.page-chart .page-chart-wrapper:only-child:after {
+  content: none;
+  display: none;
 }
 
 .page-candlestick .page-candlestick-wrapper:only-child,
@@ -525,7 +574,6 @@ body {
 
 .page-candlestick .page-candlestick-wrapper-inner,
 .page-chart .page-chart-wrapper-inner {
-  /* background: var(--neutral-color); */
   display: block;
   height: 160px;
   position: relative;
