@@ -518,16 +518,16 @@ const DAYS = 30;
           document.querySelector('body').classList.add('exit');
           setTimeout(() => { document.querySelector('body').classList.remove('loading'); document.querySelector('body').classList.remove('exit'); }, 501);
         } else {
-          alert('Error loading data');
+          document.querySelector('#loadingMessage').innerHTML = 'Abbiamo dei piccoli e risolvibilissimi problemi nel caricare i dati. Puoi ricaricare la pagina, o riprovare tra qualche minuto.';
           throw new Error('Error Loading Data', jsonData.message);
         }
       })
-      // .catch(
-      //   e => {
-      //     alert('Error loading data');
-      //     throw new Error('Error Loading Data', e);
-      //   }
-      // );
+      .catch(
+        e => {
+          document.querySelector('#loadingMessage').innerHTML = 'Abbiamo dei piccoli e risolvibilissimi problemi nel caricare i dati. Puoi ricaricare la pagina, o riprovare tra qualche minuto.';
+          throw new Error('Error Loading Data', e);
+        }
+      );
   }
 
   const ready = () => {
