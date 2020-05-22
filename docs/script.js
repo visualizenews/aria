@@ -514,7 +514,7 @@ const DAYS = 30;
           document.querySelectorAll('.writeDays').forEach(e => { e.innerHTML = DAYS });
           document.querySelector('#numberOfStations').innerHTML = STATIONS.length;
           document.querySelectorAll('.locationOfStations').forEach(e => { e.innerHTML = locationOfStations });
-          document.querySelector('#date').innerHTML = moment(rawData[0].data).format('DD/MM/YYYY');
+          document.querySelectorAll('.dynDate').forEach(e => { e.innerHTML = moment(rawData[0].data).format('DD/MM/YYYY'); });
           document.querySelector('body').classList.add('exit');
           setTimeout(() => { document.querySelector('body').classList.remove('loading'); document.querySelector('body').classList.remove('exit'); }, 501);
         } else {

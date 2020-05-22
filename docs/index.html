@@ -119,7 +119,7 @@
     </div>
     <header class="page-header">
       <h1>L'aria di Milano</h1>
-      <div class="page-title page-title-light"><h2>Dati del <span id="date"></span></h2></div>
+      <div class="page-title page-title-light"><h2>Dati del <span class="dynDate"></span></h2></div>
     </header>
     <div class="page-maps" id="page-maps">
       
@@ -139,9 +139,48 @@
     
     <div class="page-charts" id="page-charts">
     </div>
+
     <footer class="page-footer">
-      <a href="https://www.esa.int/ESA_Multimedia/Images/2015/06/Milan_Italy">Satellite image</a> &copy; <a href="https://www.esa.int/">ESA</a>.
+      <div class="wrapper">
+        <div class="column">
+          <h3 id="data-sources">Fonti</h3>
+          <p>I dati vengono raccolti e aggregati almeno due volte al giorno dalle API <a href="http://dati.comune.milano.it" targe="_comune">Open Data del Comune di Milano</a>. <a href="https://www.esa.int/ESA_Multimedia/Images/2015/06/Milan_Italy">Immagine satellitare</a> &copy; <a href="https://www.esa.int/">ESA</a>.
+    
+          <p>Ultimo aggiornamento dei dati: <span class="dynDate"></span>.</p>
+        </div>
+        <div class="column">
+          <h3>Copyright</h3>
+          <p>© 2020 <a href="https://visualize.news" target="_visualize">Visualize.News</a> – Tutti i diritti riservati. Tutte le immagini e i testi © dei rispettivi proprietari. Questo sito è stato progettato e realizzato da <a href="https://simonelippolis.com" target="_simone">Simone Lippolis</a>.</p>
+          <h3>Termini del servizio</h3>
+          <p>Tutte le analisi sono fornite "as-is" ("così come sono"), senza alcuna garanzia esplicita o implicita della loro correttezza.</p>
+          <h3>Privacy policy</h3>
+          <p>Questo sito non salva alcun cookie, né utilizza alcun altro tipo di tecnologia di tracking. Usiamo <a href="https://www.google.com/analytics">Google Analytics</a> per soli scopi statistici. È possibile che <a href="https://www.google.com/analytics">Google Analytics</a> salvi cookies o utilizzi altre tecnologie di tracking; questi dati, in ogni caso, non sono a noi accessibili.</p>
+          <p><strong>Nessun dato</strong> (inclusi IP address, Host name, Broswer signature) <strong>viene salvato per alucn motivo su nostri server</strong>.</p>
+        </div>
+        <div class="column">
+          <h3><a href="https://visualize.news" target="_visualize"><img src="./vn.png" alt="Visualize News Logo"> Visualize News</a></h3>
+          
+          <p>Siamo un collettivo di computational designer appassionati di data visualization.</p>
+          
+          <h3>Contatti</h3>
+          <ul>
+            <li>Web: <a href="https://visualize.news" target="_visualize">Visualize.News</a></li>
+            <li>Twitter: <a href="https://twitter.com/visualizenews" target="_twitter">@visualizenews</a></li>
+            <li>Instagram: <a href="https://instagram.com/visualizenews" target="_twitter">@visualizenews</a></li>
+            <li>Medium: <a href="https://medium.com/visualize-news" target="_medium">@visualize.news</a></li>
+          </ul>
+          
+          <h3>Altri progetti</h3>
+          <ul>
+            <li><a href="https://coronavirus.visualize.news" target="_virus">Corona Virus in Italy</a></li>
+            <li><a href="https://matteointour.visualize.news" target="_elezioni">Matteo in Tour</a></li>
+            <li><a href="https://india.visualize.news" target="_elezioni">Lok Sabha Elections</a></li>
+            <li><a href="https://elezioni.io" target="_elezioni">Elezioni.io</a></li>
+          </ul>
+        </div>
+      </div>
     </footer>
+   
     <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0,npm/moment@2.24.0/locale/it.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-array/1.2.2/d3-array.min.js" integrity="sha256-DXTo8QSnE30b4PAWKzi7e214vsBCEyE2IuVj8X7aa+g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-collection/1.0.5/d3-collection.min.js" integrity="sha256-xNoiuWVd276HB67QUPDhHjeUcJnnFnjoQlGSV5iQEiM=" crossorigin="anonymous"></script>
