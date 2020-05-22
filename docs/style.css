@@ -950,7 +950,8 @@ body {
 }
 
 .page-footer .wrapper {
-      display: block;
+   display: block;
+   padding: 60px 40px 0 40px;
 }
 
 @media screen and (min-width:768px) {
@@ -1039,4 +1040,20 @@ body {
 
 .page-footer strong {
   font-weight: 200;
+}
+
+.page-social {
+  display: flex;
+  justify-content: center;
+}
+
+.page-social .social-button {
+  flex: 0 1 auto;
+  padding: 0 10px;
+}
+
+@media screen and (min-width:768px) {
+  .page-social .social-button {
+    padding: 0 20px;
+  }
 }
