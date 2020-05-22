@@ -237,14 +237,14 @@ const DAYS = 30;
           const pointY1Pos = y(d.y1);
           const pointY2Pos = y(d.y2);
           const date = moment(d.date);
-          // Thicks
-          html += `<div class="page-candlestick-x-axis-thick ${(date.day() === 1) ? 'page-candlestick-x-axis-thick-highlight' : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
-          // Labels
-          if (date.day() === 1) {
-            html += `<div class="page-candlestick-x-axis-label" style="left: ${xPos}px;">${(screenSize === 'S') ? date.format('D/MM') : date.format('dd D/MM')}</div>`;
-          }
-          // Points
           if (d.y1 > -1 && d.y2 > -1) {
+            // Thicks
+            html += `<div class="page-candlestick-x-axis-thick ${(date.day() === 1) ? 'page-candlestick-x-axis-thick-highlight' : ''}" style="left: ${xPos}px; top: ${yPos}px"></div>`;
+            // Labels
+            if (date.day() === 1) {
+              html += `<div class="page-candlestick-x-axis-label" style="left: ${xPos}px;">${(screenSize === 'S') ? date.format('D/MM') : date.format('dd D/MM')}</div>`;
+            }
+            // Points
             html += `<div class="page-candlestick-point ${d.className1}" style="top: ${pointY1Pos}px; left: ${xPos}px"></div>`;
             html += `<div class="page-candlestick-point ${d.className2}" style="top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
             if (Math.abs(pointY1Pos - pointY2Pos) > 3) {
