@@ -181,8 +181,8 @@ body {
 }
 
 .page-map-container::before {
-  background: transparent url(picture.webp) center center no-repeat;
-  background: transparent url(shape.webp) center center no-repeat;
+  background: transparent url(picture.png) center center no-repeat;
+  background: transparent url(shape.png) center center no-repeat;
   background-size: contain;
   content: '';
   display: block;
@@ -193,7 +193,7 @@ body {
 
 .page-map-container:hover::before,
 .page-map-container:active::before {
-  background: transparent url(picture.webp) center center no-repeat;
+  background: transparent url(picture.png) center center no-repeat;
   background-size: contain;
 }
 
