@@ -215,7 +215,18 @@ const DAYS = 30;
         }
       });
     });
-    // Candlesticks
+    // Candlesticks +
+    // Radial Chart Data Constructor
+    const margin = (screenSize === 'S' || screenSize === 'M') ? 20 : 40;
+    const radarContainer = d3.select('#page-radar');
+    const width = radarContainer.node().offsetWidth;
+    const size = Math.min(width, 400);
+    const center = 0;
+    const inner = Math.round((size - (margin * 2)) / 7);
+    const outer = (size - (margin * 2)) / 2;
+    const sector = (2 * Math.PI / (candlesticks.length));
+    const radialDefs = [];
+    // Loop candlesticks
     candlesticks.forEach((ch, j) => {
       const $container = document.querySelector(`#page-candlestick-container-${ch.id}`);
       if ($container) {
@@ -274,23 +285,97 @@ const DAYS = 30;
         });
         $container.innerHTML = html;
       }
+      const t = sector * j;
+      radialDefs.push({
+        id: ch.id,
+        key: ch.key,
+        code: ch.code,
+        label: ch.label,
+        t,
+        fnx: (t, y, c) => Math.cos(t) * y + c,
+        fny: d3.scaleLinear()
+          .range([inner, outer])
+          .domain([0,d3.max(SUBS[ch.key].limits)]),
+        x: {
+          domain: [Math.cos(t) * inner + center, Math.cos(t) * outer + center],
+        },
+        y: {
+          domain: [Math.sin(t) * inner + center, Math.sin(t) * outer + center],
+          range: [0,d3.max(SUBS[ch.key].limits)]
+        },
+        values: {
+          x: j,
+          y: [ ch.data[ch.data.length - 1].y1, ch.data[ch.data.length - 1].y2 * 2],
+        }
+      });
     });
-    console.log(candlesticks);
-    // Radar
-    const margin = (screenSize === 'S' || screenSize === 'M') ? 10 : 20;
-    const radarContainer = d3.select('#page-radar');
-    const width = radarContainer.node().offsetWidth;
-    const size = Math.min(width, 400);
-    const inner = Math.round(size / 3);
-    const outer = size - margin;
 
+    console.log(candlesticks);
+
+    // Radar
+    const area = d3.areaRadial()
+      .curve(d3.curveLinearClosed)
+      .angle(d => d.t);
     const svg = radarContainer.append("svg")
       .attr("viewBox", [-size / 2, -size / 2, size, size])
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round");
 
     const g = svg.append('g');
+    
+    // var x = Math.cos(t) * radius + centerX;
+    // var y = Math.sin(t) * radius + centerY;
 
+    g.append('circle')
+      .attr('cx', center)
+      .attr('cy', center)
+      .attr('r', inner)
+      .attr('stroke', 'black')
+      .attr('stroke-width', '1')
+      .attr('fill', 'none')
+      .attr('stroke-dasharray', '1 4')
+      .attr('class', 'radial-inner-circle');
+
+    g.append('circle')
+      .attr('cx', center)
+      .attr('cy', center)
+      .attr('r', outer)
+      .attr('stroke', 'black')
+      .attr('stroke-width', '1')
+      .attr('fill', 'none')
+      .attr('stroke-dasharray', '1 6')
+      .attr('class', 'radial-outer-circle');
+
+
+    console.log(radialDefs);
+
+    radialDefs.forEach(r => {
+      g.append('line')
+        .attr('x1', r.x.domain[0])
+        .attr('x2',  r.x.domain[1])
+        .attr('y1',  r.y.domain[0])
+        .attr('y2',  r.y.domain[1])
+        .attr('stroke', 'red')
+        .attr('class', `radial-sub-line radial-sub-line-${r.code}`)
+        .attr('id', `radial-sub-line-${r.code}`);
+    });
+
+    g.append('path')
+      .datum(radialDefs)
+      .attr('d', area
+        .innerRadius(d => d.fny(d.values.y[0]))
+        .outerRadius(d => d.fny(d.values.y[1]))
+      );
+
+      // // Y Axis
+      // g.append('line')
+      //   .attr('x1',  Math.cos(t) * inner + center)
+      //   .attr('x2',  Math.cos(t) * outer + center)
+      //   .attr('y1',  Math.sin(t) * inner + center)
+      //   .attr('y2',  Math.sin(t) * outer + center)
+      //   .attr('stroke', 'red')
+      //   .attr('class', `radial-sub-line radial-sub-line-${c.code}`)
+      //   .attr('id', `radial-sub-line-${c.code}`);
   }
 
   const drawMaps = () => {
