@@ -100,8 +100,10 @@ const DAYS = 30;
   const reset = () => {
     const $chartContainers = document.querySelectorAll('.page-chart-container');
     const $candlestickContainers = document.querySelectorAll('.page-candlestick-container');
+    const $radarContainer = document.querySelector('#page-radar');
     $chartContainers.forEach($c => { $c.innerHTML = '' });
     $candlestickContainers.forEach($c => { $c.innerHTML = '' });
+    $radarContainer.innerHTML = '';
     drawCharts();
   };
 
@@ -152,6 +154,7 @@ const DAYS = 30;
     } else if (window.matchMedia('screen and (min-width:768px)').matches) {
       screenSize = 'M';
     }
+    // Charts
     charts.forEach((c, i) => {
       c.charts.forEach((ch, j) => {
         const $container = document.querySelector(`#page-chart-container-${c.id}-${ch.id}`);
@@ -212,6 +215,7 @@ const DAYS = 30;
         }
       });
     });
+    // Candlesticks
     candlesticks.forEach((ch, j) => {
       const $container = document.querySelector(`#page-candlestick-container-${ch.id}`);
       if ($container) {
@@ -271,7 +275,23 @@ const DAYS = 30;
         $container.innerHTML = html;
       }
     });
-  };
+    console.log(candlesticks);
+    // Radar
+    const margin = (screenSize === 'S' || screenSize === 'M') ? 10 : 20;
+    const radarContainer = d3.select('#page-radar');
+    const width = radarContainer.node().offsetWidth;
+    const size = Math.min(width, 400);
+    const inner = Math.round(size / 3);
+    const outer = size - margin;
+
+    const svg = radarContainer.append("svg")
+      .attr("viewBox", [-size / 2, -size / 2, size, size])
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round");
+
+    const g = svg.append('g');
+
+  }
 
   const drawMaps = () => {
     let html = '';
@@ -521,13 +541,13 @@ const DAYS = 30;
           document.querySelector('#loadingMessage').innerHTML = 'Abbiamo dei piccoli e risolvibilissimi problemi nel caricare i dati. Puoi ricaricare la pagina, o riprovare tra qualche minuto.';
           throw new Error('Error Loading Data', jsonData.message);
         }
-      })
+      })/*
       .catch(
         e => {
           document.querySelector('#loadingMessage').innerHTML = 'Abbiamo dei piccoli e risolvibilissimi problemi nel caricare i dati. Puoi ricaricare la pagina, o riprovare tra qualche minuto.';
           throw new Error('Error Loading Data', e);
         }
-      );
+      );*/
   }
 
   const ready = () => {
