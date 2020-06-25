@@ -453,6 +453,11 @@ body {
   margin: 0 0 20px 0;
 }
 
+.page-text h4 {
+  font-size: 14px;
+  margin: 10px 0;
+}
+
 .page-text strong {
   font-size: 14px;
   font-weight: 700;
