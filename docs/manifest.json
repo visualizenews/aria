@@ -1,5 +1,6 @@
 {
  "name": "Aria",
+ "manifest_version": 1.1,
  "icons": [
   {
    "src": "\/icons\/android-icon-36x36.png",
