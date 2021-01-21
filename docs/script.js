@@ -528,16 +528,16 @@ const DAYS = 30;
           throw new Error('Error Loading Data', e);
         }
       );
-      fetch(document.querySelector('#corporate').getAttribute('href'))
-          .then(response => response.text())
-          .then(content => {
-            document.querySelector('#footer-corporate').innerHTML =content;
-          });
-      fetch(document.querySelector('#legal').getAttribute('href'))
+    fetch(document.querySelector('#corporate').getAttribute('href'))
         .then(response => response.text())
         .then(content => {
-          document.querySelector('#footer-legal').innerHTML =content;
+          document.querySelector('#footer-corporate').innerHTML =content;
         });
+    fetch(document.querySelector('#legal').getAttribute('href'))
+      .then(response => response.text())
+      .then(content => {
+        document.querySelector('#footer-legal').innerHTML =content;
+      });
   }
 
   const ready = () => {
