@@ -42,19 +42,19 @@ const SUBS = {
   PM10: {
     name: 'PM 10',
     code: 'PM10',
-    limits: [ 20, 35, 50, 100 ],
+    limits: [ 20, 35, 50, 100, 200 ],
     unit: 'µg/m³',
   },
   PM25: {
     name: 'PM 2,5',
     code: 'PM25',
-    limits: [ 20, 35, 50, 100 ],
+    limits: [ 20, 35, 50, 100, 200 ],
     unit: 'µg/m³',
   },
   NO2: {
     name: 'Diossido di azoto',
     code: 'NO2',
-    limits: [ 40, 100, 200, 400 ],
+    limits: [ 40, 100, 200, 400, 800 ],
     unit: 'µg/m³',
   },
   /*
@@ -67,23 +67,23 @@ const SUBS = {
   O3: {
     name: 'Ozono',
     code: 'O3',
-    limits: [ 80, 120, 180, 240 ],
+    limits: [ 80, 120, 180, 240, 480 ],
     unit: 'µg/m³',
   },
   SO2: {
     name: 'Anidride Solforosa',
     code: 'SO2',
-    limits: [ 50, 125, 350, 500 ],
+    limits: [ 50, 125, 350, 500, 1000 ],
     unit: 'µg/m³',
   },
   C6H6: {
     name: 'Benzene',
     code: 'C6H6',
-    limits: [ 2, 3, 4, 5 ],
+    limits: [ 2, 3, 4, 5, 10 ],
     unit: 'µg/m³',
   },
 };
-const MARGINS = [30, 30, 20, 20];
+const MARGINS = [30, 30, 20, 40];
 
 const DAYS = 30;
 
