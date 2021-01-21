@@ -42,19 +42,19 @@ const SUBS = {
   PM10: {
     name: 'PM 10',
     code: 'PM10',
-    limits: [ 20, 35, 50, 100, 200 ],
+    limits: [ 20, 35, 50, 100 ],
     unit: 'µg/m³',
   },
   PM25: {
     name: 'PM 2,5',
     code: 'PM25',
-    limits: [ 20, 35, 50, 100, 200 ],
+    limits: [ 20, 35, 50, 100 ],
     unit: 'µg/m³',
   },
   NO2: {
     name: 'Diossido di azoto',
     code: 'NO2',
-    limits: [ 40, 100, 200, 400, 800 ],
+    limits: [ 40, 100, 200, 400 ],
     unit: 'µg/m³',
   },
   /*
@@ -67,19 +67,19 @@ const SUBS = {
   O3: {
     name: 'Ozono',
     code: 'O3',
-    limits: [ 80, 120, 180, 240, 480 ],
+    limits: [ 80, 120, 180, 240 ],
     unit: 'µg/m³',
   },
   SO2: {
     name: 'Anidride Solforosa',
     code: 'SO2',
-    limits: [ 50, 125, 350, 500, 1000 ],
+    limits: [ 50, 125, 350, 500 ],
     unit: 'µg/m³',
   },
   C6H6: {
     name: 'Benzene',
     code: 'C6H6',
-    limits: [ 2, 3, 4, 5, 10 ],
+    limits: [ 2, 3, 4, 5 ],
     unit: 'µg/m³',
   },
 };
@@ -174,7 +174,7 @@ const DAYS = 30;
               .range([chartHeight - MARGINS[2], MARGINS[0]]);
 
             
-            ch.data.forEach(d => {
+            ch.data.forEach((d, index) => {
               // X-Axis
               const xPos = x(d.x);
               const yPos = chartHeight - 20;
@@ -189,6 +189,9 @@ const DAYS = 30;
               // Points
               if (d.y > -1) {
                 html += `<div class="page-chart-point ${d.className}" style="top: ${pointYPos}px; left: ${xPos}px"></div>`;
+                if (index === 0) {
+                  html += `<div class="page-chart-point-value ${d.className}" style="top: ${pointYPos}px; left: ${xPos}px">${d.y}</div>`;
+                }
               }
             });
             // Y-Axis
@@ -230,7 +233,7 @@ const DAYS = 30;
           .range([chartHeight - MARGINS[2], MARGINS[0]]);
 
         
-        ch.data.forEach(d => {
+        ch.data.forEach((d, index) => {
           // X-Axis
           const xPos = x(d.x);
           const yPos = chartHeight - 20;
@@ -247,6 +250,12 @@ const DAYS = 30;
             // Points
             html += `<div class="page-candlestick-point ${d.className1}" style="top: ${pointY1Pos}px; left: ${xPos}px"></div>`;
             html += `<div class="page-candlestick-point ${d.className2}" style="top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
+            if (index === 0) {
+              html += `<div class="page-candlestick-point-value page-candlestick-point-value-2 ${d.className2}" style="top: ${pointY2Pos}px; left: ${xPos}px">${d.y2}</div>`;
+              if (pointY1Pos !== pointY2Pos) {
+                html += `<div class="page-candlestick-point-value page-candlestick-point-value-1 ${d.className1}" style="top: ${pointY1Pos}px; left: ${xPos}px">${d.y1}</div>`;
+              }
+            }
             if (Math.abs(pointY1Pos - pointY2Pos) > 3) {
               html += `<div class="page-candlestick-point-connector ${d.className2}-${d.className1}" style="height: ${pointY1Pos - pointY2Pos}px; top: ${pointY2Pos}px; left: ${xPos}px"></div>`;
             }
@@ -255,7 +264,6 @@ const DAYS = 30;
         // Y-Axis
         uniqueYValues.forEach(u => {
           const xPos = 20;
-          const x2Pos = chartWidth - 20;
           const yPos = y(u);
           const level = SUBS[ch.key].limits.indexOf(u);
           // Markers
@@ -324,6 +332,7 @@ const DAYS = 30;
                 const top = SUBS[key].limits.length;
                 if (s.valore > SUBS[key].limits[top - 1]) {
                   level = `level-${top}`;
+                  SUBS[key].limits[top - 1] = s.valore;
                 } else {
                   let found = false;
                   while (!found && k < top) {

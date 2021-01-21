@@ -803,10 +803,10 @@ body {
   font-family: 'Fira Mono', monospace;
   font-size: 10px;
   font-weight: 400;
+  left: 5px;
   line-height: 12px;
   letter-spacing: 1px;
   position: absolute;
-  right: 5px;
   transform: translate3d(0, 2px, 0);
   z-index: 2;
 }
@@ -857,6 +857,53 @@ body {
   transform: translate3d(-50%, -50%, 0);
   width: 5px;
   z-index: 3;
+}
+
+.page-chart-point-value,
+.page-candlestick-point-value {
+  font-family: 'Fira Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1px;
+  position: absolute;
+}
+
+.page-candlestick-point-value.page-candlestick-point-value-1 {
+  transform: translate3d(-50%, 6px, 0);
+}
+
+.page-chart-point-value,
+.page-candlestick-point-value.page-candlestick-point-value-2 {
+  transform: translate3d(-50%, -16px, 0);
+}
+
+.page-chart-point-value.level-0,
+.page-candlestick-point-value.level-0 {
+  background: transparent !important;
+  color: var(--base-scale0-color);
+}
+
+.page-chart-point-value.level-1,
+.page-candlestick-point-value.level-1 {
+  background: transparent !important;
+  color: var(--base-scale3-color);
+}
+
+.page-chart-point-value.level-2,
+.page-candlestick-point-value.level-2 {
+  background: transparent !important;
+  color: var(--base-scale4-color);
+}
+
+.page-chart-point-value.level-3,
+.page-candlestick-point-value.level-3 {
+  background: transparent !important;
+  color: var(--base-scale5-color);
+}
+
+.page-chart-point-value.level-4,
+.page-candlestick-point-value.level-4 {
+  background: transparent !important;
+  color: var(--base-scale6-color);
 }
 
 @media screen and (min-width:768px) {
