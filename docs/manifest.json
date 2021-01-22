@@ -1,9 +1,9 @@
 {
- "name": "L'Aria di Milano",
+  "manifest_version": 1.2,
+  "name": "L'Aria di Milano",
  "short_name": "Aria",
  "start_url": "https://aria.mia.mi.it",
  "background_color": "#E6F4F1",
- "manifest_version": 1.1,
  "icons": [
   {
    "src": "\/icons\/android-icon-36x36.png",
