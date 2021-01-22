@@ -313,8 +313,18 @@ const DAYS = 30;
     rawData.forEach(d => {
       if (substances.indexOf(d.inquinante.toUpperCase()) === -1) { substances.push(d.inquinante.toUpperCase()) }
     });
-    // Maps
+    // Fix out of scale values
     const keys = Object.keys(SUBS);
+    keys.forEach((key, i) => {
+      if (substances.indexOf(key) > -1) {
+        const maxDay = Math.max(...rawData.filter(d => d.inquinante.toUpperCase() === key && d.valore !== null).map(d => d.valore));
+        // SUBS[key].limits[SUBS[key].limits.length - 1] = Math.max(maxDay, SUBS[key].limits[SUBS[key].limits.length - 1]);
+        if (SUBS[key].limits[SUBS[key].limits.length - 1] < maxDay) {
+          SUBS[key].limits.push(maxDay);
+        }
+      }
+    });
+    // Maps
     keys.forEach((key, i) => {
       if (substances.indexOf(key) > -1) {
         const sorted = rawData.filter(d => (d.data === firstDay.format('YYYY-MM-DDTHH:mm:ss') && d.inquinante.toUpperCase() === key));
@@ -332,7 +342,6 @@ const DAYS = 30;
                 const top = SUBS[key].limits.length;
                 if (s.valore > SUBS[key].limits[top - 1]) {
                   level = `level-${top}`;
-                  SUBS[key].limits[top - 1] = s.valore;
                 } else {
                   let found = false;
                   while (!found && k < top) {
