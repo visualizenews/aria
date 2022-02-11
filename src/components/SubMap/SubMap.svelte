@@ -1,6 +1,7 @@
 <script>
 	import { matchSensorsToSubstance } from './../../settings.js';
   import { limits } from '../../settings.js';
+import { validate_component } from 'svelte/internal';
   export let sub = {};
   export let index = -1;
   export let stationsList = [];
@@ -16,14 +17,15 @@
   const getLevel = (station) => {
     const sensors = stationsToSensors[station.id];
     const validSensors = [];
+    let latestData = latestAvailableData;
     sensors.forEach((s) => {
       if (matchSensorsToSubstance(sub, s)) {
         validSensors.push(s);
       }
     });
-    // console.log('> sensors', sensors);
-    // console.log('> sub.sensors', sub.sensors);
-    // console.log('> validSensors', validSensors);
+    console.log('> sensors', sensors);
+    console.log('> sub.sensors', sub.sensors);
+    console.log('> validSensors', validSensors);
     if (validSensors.length === 0) {
       return 'neutral';
     }
@@ -39,7 +41,7 @@
         const value = validData.reduce((a, d) => a + d.avg, 0) / validData.length;
         if (limits[sub.code].length > 0) {
           limits[sub.code].forEach((l, i) => {
-            if (value <= l) {
+            if (value < l) {
               return i;
             }
           });
@@ -49,8 +51,14 @@
         }
       }
       return 'off';
+    } else {
+      console.log(station.id, sub.code);
+      let validData = [];
+      validSensors.forEach((s) => {
+        validData = validData.concat(stations[station.id][s].filter(d => d.x.getTime() === latestAvailableData.getTime()));
+      });
+      console.log('vd', validData);
     }
-    return 'neutral';
   }
 </script>
 
@@ -62,6 +70,13 @@
       {#each stationsList as station}
         <div class="marker marker-{station.id} level-{getLevel(station)}" id="marker-0-0">{station.displayIndex}</div>
       {/each}
+    </div>
+    <div class="page-map-legend">
+      {#each limits[sub.code] as l, index}
+        <div class="page-map-legend-item level-{index}">&lt; {l} {#if index === 0}{sub.unit}{/if}</div>
+      {/each}
+      <div class="page-map-legend-item level-{limits[sub.code].length}">≥ {limits[sub.code][limits[sub.code].length - 1]}</div>
+      <div class="page-map-legend-item level-neutral">n.a.</div>
     </div>
   {/if}
 </main>
@@ -99,31 +114,31 @@
   font-family: 'Fira Mono', monospace;
   font-size: 9px;
   font-weight: 400;
-  height: 10px;
-  line-height: 10px;
+  height: 12px;
+  line-height: 12px;
   overflow: hidden;
   position: absolute;
   text-align: center;
   transform: translate3d(-50%, -50%, 0);
   transform-origin: 50% 50%;
-  width: 10px;
+  width: 12px;
 }
 
 @media screen and (min-width:768px) {
   .marker {
     font-size: 10px;
-    height: 14px;
-    line-height: 14px;
-    width: 14px;
+    height: 15px;
+    line-height: 15px;
+    width: 15px;
   }
 }
 
 @media screen and (min-width:1024px) {
   .marker {
     font-size: 12px;
-    height: 15px;
-    line-height: 15px;
-    width: 15px;
+    height: 18px;
+    line-height: 18px;
+    width: 18px;
   }
 }
 
@@ -297,5 +312,15 @@
     line-height: 14px;
     top: 18px;
   }
+}
+.page-map-legend {
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  left: 20px;
+  position: absolute;
+  right: 50%;
+  width: auto;
+  z-index: 3;
 }
 </style>

@@ -9,6 +9,7 @@
 		aggregateValuesBySubstance,
 		createRelations,
 		createStationsList,
+		excludeMap,
 	} from './settings.js';
 
 	let status = [ 'loading' ];
@@ -42,7 +43,7 @@
 		records = await fetchData();
 		console.log(records);
 		setDate();
-		substancesList = createSubstancesList(records);
+		substancesList = createSubstancesList(records).slice(3,6);
 		stationsList = createStationsList(records);
 		stationsToSensors = createRelations(stationsList, records);
 		substancesList.forEach((s) => {
@@ -84,10 +85,16 @@
 	{#if records.data.values.length > 0 && records.data.values.length > 0}
 		<div class="page-maps">
 			{#each substancesList as sub, index}
-				<div class="page-map page-map-{index}">
-					<SubMap {sub} {index} {stations} {stationsList} {latestAvailableData} {stationsToSensors} />
-				</div>
+				{#if !excludeMap.find(d => d === sub.code)}
+					<div class="page-map page-map-{index}">
+						<SubMap {sub} {index} {stations} {stationsList} {latestAvailableData} {stationsToSensors} />
+					</div>
+				{/if}
 			{/each}
+		</div>
+		<div class="page-title"><h2>Ultimi <span class="writeDays">30</span> giorni</h2></div>
+		<div class="page-text">
+			<p>Nei grafici seguenti è possibile vedere l'andamento di ciascuna sostanza inquinante nel corso dell'ultimo mese. Per ogni giorno sono mostrati i valori massimo e minimo rilevati.</p>
 		</div>
 	{/if}
 </main>

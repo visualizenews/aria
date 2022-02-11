@@ -11,6 +11,8 @@ export const limits = {
   SO2: [50, 125, 350, 500],
 }
 
+export const excludeMap = ['BC'];
+
 export const pushValue = (t, v) => {
   t.push(v);
   return [...t];
