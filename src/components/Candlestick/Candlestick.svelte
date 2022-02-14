@@ -2,6 +2,7 @@
 <script>
   import { onMount } from "svelte";
   import * as chrt from "chrt";
+	import { getColor } from './../../settings.js';
   export let data = [];
   export let sub = {};
 
@@ -19,41 +20,51 @@
       .size(W, H)
       .margins({
         bottom: 30,
-        left: 20,
+        left: 0,
         right: 20,
         top: 10,
       })
       .x({ scale: "time" })
       .y({ scale: "linear", domain: [0, null] })
 
-      chart.add(chrt.chrtPoints().data(data, d => ({ x: d.x, y: d.min })).color("green").radius(2));
-      chart.add(chrt.chrtPoints().data(data, d => ({ x: d.x, y: d.avg })).color("gold").radius(2));
-      chart.add(chrt.chrtPoints().data(data, d => ({ x: d.x, y: d.max })).color("red").radius(2));
+    chart.add(
+      chrt.chrtPoints()
+        .data(data, d => ({ x: d.x, y: d.min }))
+        .color(d => getColor(sub.code, d.min))
+        .radius(3)
+    );
+    // chart.add(chrt.chrtPoints().data(data, d => ({ x: d.x, y: d.max })).color(d => getColor(sub.code, d.max)).radius(3));
 
     chart.add(
-      chrt.xAxis()
+      chrt.xAxis(15)
         .zero(0)
         .orient('bottom')
         .setTickPosition("outside")
         .setLabelPosition('outside')
         .class('bar-axis')
-        .color('#444')
+        .color('transparent')
         .width(1)
-        .format(d => new Intl.DateTimeFormat('it-IT', {
-          month: 'numeric',
-          day: 'numeric',
-          timeZone: 'UTC'
-        }).format(d))
+        .format((d, i, arr) => {
+          if (i % 7 === 0 || i === arr.length - 1) {
+            return new Intl.DateTimeFormat('it-IT', {
+              month: 'numeric',
+              day: 'numeric',
+              timeZone: 'UTC'
+            }).format(d);
+          }
+          return '';
+        })
+        .class('axis')
         .interval(interval)
     );
 
-    chart.add(
-      chrt.yAxis()
-        .showAxis(data.length > 1)
-        .setTickPosition("inside")
-        .setLabelPosition('inside')
-        .class('bar-axis')
-    );
+    // chart.add(
+    //   chrt.yAxis()
+    //     .showAxis(data.length > 1)
+    //     .setTickPosition("inside")
+    //     .setLabelPosition('inside')
+    //     .class('bar-axis')
+    // );
   });
 
 </script>

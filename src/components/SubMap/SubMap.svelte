@@ -1,7 +1,6 @@
 <script>
 	import { matchSensorsToSubstance } from './../../settings.js';
-  import { limits } from '../../settings.js';
-import { validate_component } from 'svelte/internal';
+  import { limits, getColorCode } from '../../settings.js';
   export let sub = {};
   export let index = -1;
   export let stationsList = [];
@@ -25,7 +24,7 @@ import { validate_component } from 'svelte/internal';
       if (validData.length > 0) {
         const value = validData.reduce((a, d) => a + d.avg, 0) / validData.length;
         if (limits[sub.code].length > 0) {
-          returnValue = limits[sub.code].findIndex(d => d > value);
+          returnValue = getColorCode(sub.code, value);
         } else {
           returnValue = 'on';
         }

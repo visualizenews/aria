@@ -167,3 +167,14 @@ export const showMap = (sub, stations, latestAvailableData, createStationsList, 
   });
   return returnValue;
 };
+
+export const getColorCode = (code, value) => {
+  const index = limits[code].findIndex(d => d > value);
+  return index > -1 ? index : limits[code].length;
+}
+
+export const getColor = (code, value) => {
+  const s = getComputedStyle(document.documentElement).getPropertyValue(`--base-scale${getColorCode(code, value)}-color`);
+  console.log(code, value, getColorCode(code, value), s);
+  return s;
+}
