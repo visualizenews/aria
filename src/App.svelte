@@ -30,6 +30,14 @@
 		latestAvailableData = new Date(Math.max(...records.data.values.map(d => fixDate(d.Date).getTime())));
 	};
 
+	const getStationsListString = () => {
+		const stations = [];
+		stationsList.forEach((s) => {
+			stations.push(`<span class="locationOfStations"><span class="stationId">${s.displayIndex}</span> <strong>${s.location}</strong>`);
+		});		
+		return stations;
+	}
+
 	const fetchData = async () => {
 		const response = await self.fetch(endpoint);
 		if (response.ok) {
@@ -98,123 +106,133 @@
 				</div>
 			</div>
 		</div>
+		<div class="page-title"><h2>Le centraline</h2></div>
+		<div class="page-text">
+			<p>Le centraline di rilevamento all'interno del comune di milano sono <span id="numberOfStations">{stationsList.length}</span>,
+				tutte gestite da <a href="https://www.arpalombardia.it/" target="_arpa">ARPA Lombardia</a>.
+				Sono localizzate in {@html getStationsListString().join(', ')}, ma non tutte risultano essere sempre online, o con sensori attivi per tutti gli inquinanti. I grafici che seguono mostrano solo le centraline con dati disponibili negli ultimi <strong><span class="writeDays">30</span> giorni</strong>.</p>
+		</div>
+		<div class="page-charts">
+			charts
+		</div>
 	{/if}
-	<div class="svg-definitions"></div>
-	<svg width="660" height="220">
-		<defs>
-			<!-- 0 -->
-			<linearGradient id="l00" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#44C08A"/>
-				<stop offset="100%" stop-color="#44C08A"/>
-			</linearGradient>
-			<linearGradient id="l01" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#44C08A"/>
-				<stop offset="100%" stop-color="#FF9A4F"/>
-			</linearGradient>
-			<linearGradient id="l02" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#44C08A"/>
-				<stop offset="100%" stop-color="#F36C57"/>
-			</linearGradient>
-			<linearGradient id="l03" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#44C08A"/>
-				<stop offset="100%" stop-color="#D74364"/>
-			</linearGradient>
-			<linearGradient id="l04" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#44C08A"/>
-				<stop offset="100%" stop-color="#AD2370"/>
-			</linearGradient>
-			<linearGradient id="l05" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#44C08A"/>
-				<stop offset="100%" stop-color="#4b1030"/>
-			</linearGradient>
-			<!-- 1 -->
-			<linearGradient id="l11" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#FF9A4F"/>
-			</linearGradient>
-			<linearGradient id="l12" x1="0%" y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#F36C57"/>
-			</linearGradient>
-			<linearGradient id="l13" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#D74364"/>
-			</linearGradient>
-			<linearGradient id="l14" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#AD2370"/>
-			</linearGradient>
-			<linearGradient id="l15" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#4b1030"/>
-			</linearGradient>
-			<!-- 1 -->
-			<linearGradient id="l11" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#FF9A4F"/>
-			</linearGradient>
-			<linearGradient id="l12" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#F36C57"/>
-			</linearGradient>
-			<linearGradient id="l13" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#D74364"/>
-			</linearGradient>
-			<linearGradient id="l14" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#AD2370"/>
-			</linearGradient>
-			<linearGradient id="l15" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#FF9A4F"/>
-				<stop offset="100%" stop-color="#4b1030"/>
-			</linearGradient>
-			<!-- 2 -->
-			<linearGradient id="l22" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#F36C57"/>
-				<stop offset="100%" stop-color="#F36C57"/>
-			</linearGradient>
-			<linearGradient id="l23" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#F36C57"/>
-				<stop offset="100%" stop-color="#D74364"/>
-			</linearGradient>
-			<linearGradient id="l24" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#F36C57"/>
-				<stop offset="100%" stop-color="#AD2370"/>
-			</linearGradient>
-			<linearGradient id="l25" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#F36C57"/>
-				<stop offset="100%" stop-color="#4b1030"/>
-			</linearGradient>
-			<!-- 3 -->
-			<linearGradient id="l33" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#D74364"/>
-				<stop offset="100%" stop-color="#D74364"/>
-			</linearGradient>
-			<linearGradient id="l34" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#D74364"/>
-				<stop offset="100%" stop-color="#AD2370"/>
-			</linearGradient>
-			<linearGradient id="l35" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#D74364"/>
-				<stop offset="100%" stop-color="#4b1030"/>
-			</linearGradient>
-			<!-- 4 -->
-			<linearGradient id="l44" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#AD2370"/>
-				<stop offset="100%" stop-color="#AD2370"/>
-			</linearGradient>
-			<linearGradient id="l45" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#AD2370"/>
-				<stop offset="100%" stop-color="#4b1030"/>
-			</linearGradient>
-			<!-- 5 -->
-			<linearGradient id="l55" x1="0%"  y1="100%" x2="0%" y2="0%">
-				<stop offset="0%"   stop-color="#4b1030"/>
-				<stop offset="100%" stop-color="#4b1030"/>
-			</linearGradient>		
-		</defs>
-	</svg>
+	<div class="svg-definitions">
+		<svg width="660" height="220">
+			<defs>
+				<!-- 0 -->
+				<linearGradient id="l00" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#44C08A"/>
+					<stop offset="100%" stop-color="#44C08A"/>
+				</linearGradient>
+				<linearGradient id="l01" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#44C08A"/>
+					<stop offset="100%" stop-color="#FF9A4F"/>
+				</linearGradient>
+				<linearGradient id="l02" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#44C08A"/>
+					<stop offset="100%" stop-color="#F36C57"/>
+				</linearGradient>
+				<linearGradient id="l03" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#44C08A"/>
+					<stop offset="100%" stop-color="#D74364"/>
+				</linearGradient>
+				<linearGradient id="l04" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#44C08A"/>
+					<stop offset="100%" stop-color="#AD2370"/>
+				</linearGradient>
+				<linearGradient id="l05" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#44C08A"/>
+					<stop offset="100%" stop-color="#4b1030"/>
+				</linearGradient>
+				<!-- 1 -->
+				<linearGradient id="l11" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#FF9A4F"/>
+				</linearGradient>
+				<linearGradient id="l12" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#F36C57"/>
+				</linearGradient>
+				<linearGradient id="l13" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#D74364"/>
+				</linearGradient>
+				<linearGradient id="l14" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#AD2370"/>
+				</linearGradient>
+				<linearGradient id="l15" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#4b1030"/>
+				</linearGradient>
+				<!-- 1 -->
+				<linearGradient id="l11" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#FF9A4F"/>
+				</linearGradient>
+				<linearGradient id="l12" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#F36C57"/>
+				</linearGradient>
+				<linearGradient id="l13" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#D74364"/>
+				</linearGradient>
+				<linearGradient id="l14" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#AD2370"/>
+				</linearGradient>
+				<linearGradient id="l15" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#FF9A4F"/>
+					<stop offset="100%" stop-color="#4b1030"/>
+				</linearGradient>
+				<!-- 2 -->
+				<linearGradient id="l22" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#F36C57"/>
+					<stop offset="100%" stop-color="#F36C57"/>
+				</linearGradient>
+				<linearGradient id="l23" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#F36C57"/>
+					<stop offset="100%" stop-color="#D74364"/>
+				</linearGradient>
+				<linearGradient id="l24" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#F36C57"/>
+					<stop offset="100%" stop-color="#AD2370"/>
+				</linearGradient>
+				<linearGradient id="l25" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#F36C57"/>
+					<stop offset="100%" stop-color="#4b1030"/>
+				</linearGradient>
+				<!-- 3 -->
+				<linearGradient id="l33" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#D74364"/>
+					<stop offset="100%" stop-color="#D74364"/>
+				</linearGradient>
+				<linearGradient id="l34" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#D74364"/>
+					<stop offset="100%" stop-color="#AD2370"/>
+				</linearGradient>
+				<linearGradient id="l35" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#D74364"/>
+					<stop offset="100%" stop-color="#4b1030"/>
+				</linearGradient>
+				<!-- 4 -->
+				<linearGradient id="l44" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#AD2370"/>
+					<stop offset="100%" stop-color="#AD2370"/>
+				</linearGradient>
+				<linearGradient id="l45" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#AD2370"/>
+					<stop offset="100%" stop-color="#4b1030"/>
+				</linearGradient>
+				<!-- 5 -->
+				<linearGradient id="l55" x1="0%"  y1="100%" x2="0%" y2="0%">
+					<stop offset="0%"   stop-color="#4b1030"/>
+					<stop offset="100%" stop-color="#4b1030"/>
+				</linearGradient>		
+			</defs>
+		</svg>
+	</div>
 </main>
 
 <style>
