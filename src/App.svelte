@@ -53,7 +53,9 @@
 			stations[s.id] = aggregateValuesBySensor(s.id, stationsToSensors[s.id], records.data);
 		});
 		status = pushValue(status, 'exit');
-
+		setTimeout(() => {
+			status = pushValue(status, 'exited');
+		}, 30);
 		console.log(substances);
 	}
 
@@ -97,6 +99,123 @@
 			</div>
 		</div>
 	{/if}
+	<div class="svg-definitions"></div>
+	<svg width="660" height="220">
+		<defs>
+			<!-- 0 -->
+			<linearGradient id="l00" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#44C08A"/>
+				<stop offset="100%" stop-color="#44C08A"/>
+			</linearGradient>
+			<linearGradient id="l01" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#44C08A"/>
+				<stop offset="100%" stop-color="#FF9A4F"/>
+			</linearGradient>
+			<linearGradient id="l02" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#44C08A"/>
+				<stop offset="100%" stop-color="#F36C57"/>
+			</linearGradient>
+			<linearGradient id="l03" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#44C08A"/>
+				<stop offset="100%" stop-color="#D74364"/>
+			</linearGradient>
+			<linearGradient id="l04" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#44C08A"/>
+				<stop offset="100%" stop-color="#AD2370"/>
+			</linearGradient>
+			<linearGradient id="l05" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#44C08A"/>
+				<stop offset="100%" stop-color="#4b1030"/>
+			</linearGradient>
+			<!-- 1 -->
+			<linearGradient id="l11" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#FF9A4F"/>
+			</linearGradient>
+			<linearGradient id="l12" x1="0%" y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#F36C57"/>
+			</linearGradient>
+			<linearGradient id="l13" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#D74364"/>
+			</linearGradient>
+			<linearGradient id="l14" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#AD2370"/>
+			</linearGradient>
+			<linearGradient id="l15" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#4b1030"/>
+			</linearGradient>
+			<!-- 1 -->
+			<linearGradient id="l11" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#FF9A4F"/>
+			</linearGradient>
+			<linearGradient id="l12" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#F36C57"/>
+			</linearGradient>
+			<linearGradient id="l13" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#D74364"/>
+			</linearGradient>
+			<linearGradient id="l14" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#AD2370"/>
+			</linearGradient>
+			<linearGradient id="l15" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#FF9A4F"/>
+				<stop offset="100%" stop-color="#4b1030"/>
+			</linearGradient>
+			<!-- 2 -->
+			<linearGradient id="l22" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#F36C57"/>
+				<stop offset="100%" stop-color="#F36C57"/>
+			</linearGradient>
+			<linearGradient id="l23" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#F36C57"/>
+				<stop offset="100%" stop-color="#D74364"/>
+			</linearGradient>
+			<linearGradient id="l24" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#F36C57"/>
+				<stop offset="100%" stop-color="#AD2370"/>
+			</linearGradient>
+			<linearGradient id="l25" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#F36C57"/>
+				<stop offset="100%" stop-color="#4b1030"/>
+			</linearGradient>
+			<!-- 3 -->
+			<linearGradient id="l33" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#D74364"/>
+				<stop offset="100%" stop-color="#D74364"/>
+			</linearGradient>
+			<linearGradient id="l34" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#D74364"/>
+				<stop offset="100%" stop-color="#AD2370"/>
+			</linearGradient>
+			<linearGradient id="l35" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#D74364"/>
+				<stop offset="100%" stop-color="#4b1030"/>
+			</linearGradient>
+			<!-- 4 -->
+			<linearGradient id="l44" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#AD2370"/>
+				<stop offset="100%" stop-color="#AD2370"/>
+			</linearGradient>
+			<linearGradient id="l45" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#AD2370"/>
+				<stop offset="100%" stop-color="#4b1030"/>
+			</linearGradient>
+			<!-- 5 -->
+			<linearGradient id="l55" x1="0%"  y1="100%" x2="0%" y2="0%">
+				<stop offset="0%"   stop-color="#4b1030"/>
+				<stop offset="100%" stop-color="#4b1030"/>
+			</linearGradient>		
+		</defs>	
+		<path d="M150 0 L75 200 L225 200 Z" stroke-width="2" stroke="url(#l-2-5)" fill="none" />
+	</svg>
 </main>
 
 <style>

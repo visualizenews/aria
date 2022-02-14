@@ -9,12 +9,13 @@
   --ac3-color: #005185;
   --ac4-color: #002F60;
 
-  --base-scale6-color: #AD2370;
-  --base-scale5-color: #D74364;
-  --base-scale4-color: #F36C57;
-  --base-scale3-color: #FF9A4F;
-  --base-scale2-color: #FFC954;
-  --base-scale1-color: #F9F871;
+  --base-scale5-color: #4b1030;
+  --base-scale4-color: #AD2370;
+  --base-scale3-color: #D74364;
+  --base-scale2-color: #F36C57;
+  --base-scale1-color: #FF9A4F;
+  /* --base-scale2-color: #FFC954; */
+  /* --base-scale1-color: #F9F871; */
   --base-scale0-color: #44C08A;
 
 
@@ -71,17 +72,21 @@ a {
   background: var(--base-scale0-color) !important;
 }
 .level-1 {
-  background: var(--base-scale3-color) !important;
+  background: var(--base-scale1-color) !important;
 }
 .level-2 {
-  background: var(--base-scale4-color) !important;
+  background: var(--base-scale2-color) !important;
 }
 .level-3 {
-  background: var(--base-scale5-color) !important;
+  background: var(--base-scale3-color) !important;
   color: #fff;
 }
 .level-4 {
-  background: var(--base-scale6-color) !important;
+  background: var(--base-scale4-color) !important;
+  color: #fff;
+}
+.level-5 {
+  background: var(--base-scale5-color) !important;
   color: #fff;
 }
 .level-on {
@@ -513,8 +518,12 @@ body {
   letter-spacing: 1px;
 }
 
+.page-candlestick .limits line {
+  opacity: .25;
+}
+
 @media screen and (min-width:768px) {
-  .page-candlestick .page-candlestick-x-axis-label,
+  .page-candlestick .axis > g > text,
   .page-chart .page-chart-x-axis-label {
     font-size: 9px;
     line-height: 10px;
@@ -699,75 +708,6 @@ body {
     width: 10px;
   }
 }
-
-.page-candlestick-point-connector {
-  background: var(--ac0-color);
-  display: block;
-  position: absolute;
-  transform: translate3d(-50%, 0, 0);
-  width: 3px;
-}
-
-.page-candlestick-point-connector.level-0-level-0 {
-  background: var(--base-scale0-color);
-}
-
-.page-candlestick-point-connector.level-1-level-1 {
-  background: var(--base-scale2-color);
-}
-
-.page-candlestick-point-connector.level-2-level-2 {
-  background: var(--base-scale4-color);
-}
-
-.page-candlestick-point-connector.level-3-level-3 {
-  background: var(--base-scale5-color);
-}
-
-.page-candlestick-point-connector.level-4-level-4 {
-  background: var(--base-scale6-color);
-}
-
-.page-candlestick-point-connector.level-1-level-0 {
-  background: linear-gradient(to bottom, var(--base-scale2-color) 0%, var(--base-scale0-color) 100%);
-}
-
-.page-candlestick-point-connector.level-2-level-0 {
-  background: linear-gradient(to bottom, var(--base-scale4-color) 0%, var(--base-scale0-color) 100%);
-}
-
-.page-candlestick-point-connector.level-3-level-0 {
-  background: linear-gradient(to bottom, var(--base-scale5-color) 0%, var(--base-scale0-color) 100%);
-}
-
-.page-candlestick-point-connector.level-4-level-0 {
-  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale0-color) 100%);
-}
-
-.page-candlestick-point-connector.level-2-level-1 {
-  background: linear-gradient(to bottom, var(--base-scale4-color) 0%, var(--base-scale2-color) 100%);
-}
-
-.page-candlestick-point-connector.level-3-level-1 {
-  background: linear-gradient(to bottom, var(--base-scale5-color) 0%, var(--base-scale2-color) 100%);
-}
-
-.page-candlestick-point-connector.level-4-level-1 {
-  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale2-color) 100%);
-}
-
-.page-candlestick-point-connector.level-3-level-2 {
-  background: linear-gradient(to bottom, var(--base-scale5-color) 0%, var(--base-scale4-color) 100%);
-}
-
-.page-candlestick-point-connector.level-4-level-2 {
-  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale4-color) 100%);
-}
-
-.page-candlestick-point-connector.level-4-level-3 {
-  background: linear-gradient(to bottom, var(--base-scale6-color) 0%, var(--base-scale5-color) 100%);
-}
-
 
 .page-footer {
   background: var(--fg-color);

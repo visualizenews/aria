@@ -28,6 +28,10 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#E6F4F1">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond&family=Fira+Mono&family=Montserrat:wght@200;400;700;900&display=swap" rel="stylesheet">
+
     <meta property="og:type" content="website">
     <meta property="og:title" content="L'aria di Milano">
     <meta property="og:description" content="Tutti i dati sulla qualità dell'aria a Milano raccolti da Arpa Lombardia visualizzati in un modo sempliice e accessibile.">
@@ -142,6 +146,12 @@
         display: block;
         opacity: 0;
         z-index: 999999;
+      }
+
+      #loading.loading.exit.exited {
+      display: none;
+      opacity: 0;
+      z-index: -1;
       }
 
       #loading.loading.exit div:before {

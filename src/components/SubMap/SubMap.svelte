@@ -248,19 +248,23 @@
 }
 
 .page-map-legend-item.level-1::after {
-  background: var(--base-scale2-color);
+  background: var(--base-scale1-color);
 }
 
 .page-map-legend-item.level-2::after {
-  background: var(--base-scale4-color);
+  background: var(--base-scale2-color);
 }
 
 .page-map-legend-item.level-3::after {
-  background: var(--base-scale5-color);
+  background: var(--base-scale3-color);
 }
 
 .page-map-legend-item.level-4::after {
-  background: var(--base-scale6-color);
+  background: var(--base-scale4-color);
+}
+
+.page-map-legend-item.level-5::after {
+  background: var(--base-scale5-color);
 }
 
 .page-map-legend-item.level-neutral::after {

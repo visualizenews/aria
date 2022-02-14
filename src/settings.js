@@ -174,7 +174,17 @@ export const getColorCode = (code, value) => {
 }
 
 export const getColor = (code, value) => {
-  const s = getComputedStyle(document.documentElement).getPropertyValue(`--base-scale${getColorCode(code, value)}-color`);
-  console.log(code, value, getColorCode(code, value), s);
-  return s;
+  return getComputedStyle(document.documentElement).getPropertyValue(`--base-scale${getColorCode(code, value)}-color`);
+}
+
+export const getColorFromIndex = (code, index) => {
+  return getComputedStyle(document.documentElement).getPropertyValue(`--base-scale${index}-color`);
+}
+
+export const getGradientId = (start, stop, code) => {
+  return `url(#${getGradientCode(start, stop, code)})`;
+};
+
+export const getGradientCode = (start, stop, code) => {
+  return `l${getColorCode(code, start)}${getColorCode(code, stop)}`;
 }
