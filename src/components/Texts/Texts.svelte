@@ -9,6 +9,8 @@
     <p>La sigla PM10 (<em>Particulate Matter</em> o Materia Particolata, cioè in piccolissime particelle) identifica una delle numerose frazioni in cui viene classificato il particolato. Si tratta di materiale presente nell'atmosfera in forma di particelle microscopiche. Secondo ricerche sperimentali su pazienti di città USA e a Milano il particolato riduce l'aspettativa di vita di 1-2 anni; il PM10 aumenta l'asma tutto l'anno e le bronchiti in inverno (<a href="https://it.wikipedia.org/wiki/PM10" title="PM 10 su Wikipedia">Wikipedia</a>).</p>
     <h4>PM 2,5</h4>
     <p>Con il termine PM 2,5 si raggruppano tutte le particelle aventi dimensioni minori o uguali a 2,5 µm. Di massima più il numero è basso, più le polveri sono sottili ed anche più pericolose per la salute della specie umana ed animale. Infatti il PM 2,5 è in grado di penetrare negli alveoli polmonari con eventuale diffusione nel sangue. Nelle donne ci sono evidenza che il PM 2,5 venga ad accumularsi nel seno causando il cancro al seno (<a href="https://it.wikipedia.org/wiki/PM_2.5" title="PM 2,5 su Wikipedia">Wikipedia</a>).</p>
+    <h4>Monossido di Azoto</h4>
+    <p>Il monossido di azoto è un gas incolore; è un forte ossidante e reagisce con materiali combustibili e riducenti. Al contatto con l'aria reagisce con l'ossigeno trasformandosi in biossido di azoto. Il monossido di azoto è irritante per gli occhi ed il tratto respiratorio. L'inalazione può causare edema polmonare, inoltre può avere effetti sul sangue, causando formazione di metaemoglobina. Nei casi più gravi può portare alla morte. Le principali fonti di NO di origine umana sono dovute ad attività civili ed industriali che comportano processi di combustione, come i trasporti e la produzione di calore ed elettricità  (<a href="https://it.wikipedia.org/wiki/Monossido_di_azoto" title=">Monossido di Azoto su Wikipedia">Wikipedia</a>).</p>
     <h4>Diossido di Azoto</h4>
     <p>Il diossido di azoto è un gas rosso bruno a temperatura ordinaria dall'odore soffocante, irritante e caratteristico. È un forte irritante delle vie polmonari; già a moderate concentrazioni nell'aria provoca tosse acuta, dolori al torace, convulsioni e insufficienza circolatoria (<a href="https://it.wikipedia.org/wiki/Diossido_di_azoto" title="Diossido di Azoto su Wikipedia">Wikipedia</a>)</p>
     <h4>Ozono</h4>
@@ -22,5 +24,5 @@
   </div>
 </main>
 <style>
-  
+
 </style>
