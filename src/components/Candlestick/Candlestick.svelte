@@ -92,7 +92,7 @@
       chrt.columns()
         .data(data, d => ({ x: d.x, y: d.min, y0: d.max }))
         .fill(d => getGradientId(d.min, d.max, sub.code))
-        .width(2)
+        .width(.1)
     );
 
     chart.add(
@@ -114,7 +114,7 @@
         chrt.yAxis()
           .ticks(limits[sub.code])  
           .setLabelPosition('inside')
-          .label('µg/m³')
+          .label(' µg/m³')
           .labelColor((d, i) => {
             return getColorFromIndex(sub.code, i);
           })
