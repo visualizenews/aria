@@ -213,10 +213,16 @@
 				<stop offset="0%"   stop-color="#4b1030"/>
 				<stop offset="100%" stop-color="#4b1030"/>
 			</linearGradient>		
-		</defs>	
-		<path d="M150 0 L75 200 L225 200 Z" stroke-width="2" stroke="url(#l-2-5)" fill="none" />
+		</defs>
 	</svg>
 </main>
 
 <style>
+	.svg-definitions {
+		display: block;
+		height: 0;
+		opacity: 0;
+		overflow: hidden;
+		width: 0;
+	}
 </style>
