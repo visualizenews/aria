@@ -1,5 +1,6 @@
 <script>
-	import SubMap from './components/SubMap/SubMap.svelte';
+	import Maps from './components/Maps/Maps.svelte';
+	import Candlestick from './components/Candlestick/Candlestick.svelte';
 	import {
 		endpoint,
 		pushValue,
@@ -9,7 +10,6 @@
 		aggregateValuesBySubstance,
 		createRelations,
 		createStationsList,
-		excludeMap,
 	} from './settings.js';
 
 	let status = [ 'loading' ];
@@ -43,7 +43,7 @@
 		records = await fetchData();
 		console.log(records);
 		setDate();
-		substancesList = createSubstancesList(records).slice(3,6);
+		substancesList = createSubstancesList(records);
 		stationsList = createStationsList(records);
 		stationsToSensors = createRelations(stationsList, records);
 		substancesList.forEach((s) => {
@@ -52,12 +52,9 @@
 		stationsList.forEach((s) => {
 			stations[s.id] = aggregateValuesBySensor(s.id, stationsToSensors[s.id], records.data);
 		});
-		// console.log('substancesList', substancesList);
-		// console.log('stationsList', stationsList);
-		// console.log('stationsToSensors', stationsToSensors);
-		// console.log('substances', substances);
-		// console.log('stations', stations);
 		status = pushValue(status, 'exit');
+
+		console.log(substances);
 	}
 
 	try {
@@ -83,18 +80,21 @@
 		}).format(latestAvailableData)}</h2></div>
 	</header>
 	{#if records.data.values.length > 0 && records.data.values.length > 0}
-		<div class="page-maps">
-			{#each substancesList as sub, index}
-				{#if !excludeMap.find(d => d === sub.code)}
-					<div class="page-map page-map-{index}">
-						<SubMap {sub} {index} {stations} {stationsList} {latestAvailableData} {stationsToSensors} />
-					</div>
-				{/if}
-			{/each}
-		</div>
+			<Maps {substancesList} {stations} {stationsList} {latestAvailableData} {stationsToSensors} />
 		<div class="page-title"><h2>Ultimi <span class="writeDays">30</span> giorni</h2></div>
 		<div class="page-text">
 			<p>Nei grafici seguenti è possibile vedere l'andamento di ciascuna sostanza inquinante nel corso dell'ultimo mese. Per ogni giorno sono mostrati i valori massimo e minimo rilevati.</p>
+		</div>
+		<div class="page-candlesticks">
+			<div class="page-candlestick">
+				<div class="page-candlestick-scroller">
+					{#each substancesList as sub}
+						<div class="page-candlestick-wrapper">
+							<Candlestick data={substances[sub.code].data} {sub} />
+						</div>
+					{/each}
+				</div>
+			</div>
 		</div>
 	{/if}
 </main>

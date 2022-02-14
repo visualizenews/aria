@@ -146,3 +146,24 @@ export const createStationsList = (records) => {
 export const matchSensorsToSubstance = (sub, sensor) => {
   return sub.sensors.find(d => d === sensor) ? true : false;
 }
+
+export const showMap = (sub, stations, latestAvailableData, createStationsList, stationsToSensors) => {
+  if (excludeMap.find(d => d === sub.code)) {
+    return false;
+  }
+  let returnValue = false;
+  const sensors = sub.sensors;
+  const keys = Object.keys(stations);
+  returnValue = sensors.some((s) => {
+    return keys.some((st) => {
+      if (
+        stations[st][s]
+        && stations[st][s].length > 0
+        && stations[st][s].find(d => d.x.getTime() === latestAvailableData.getTime())
+      ) {
+        return true;
+      }
+    });
+  });
+  return returnValue;
+};

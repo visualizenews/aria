@@ -9,56 +9,38 @@ import { validate_component } from 'svelte/internal';
   export let stationsToSensors = {};
   export let latestAvailableData = new Date();
   
-  // console.log('stationsToSensors', stationsToSensors);
-  // console.log('sub', sub);
-  // console.log('stationsList', stationsList);
-  // console.log('stations', stations);
-
   const getLevel = (station) => {
+    let returnValue = 'neutral';
     const sensors = stationsToSensors[station.id];
     const validSensors = [];
-    let latestData = latestAvailableData;
     sensors.forEach((s) => {
       if (matchSensorsToSubstance(sub, s)) {
         validSensors.push(s);
       }
     });
-    console.log('> sensors', sensors);
-    console.log('> sub.sensors', sub.sensors);
-    console.log('> validSensors', validSensors);
     if (validSensors.length === 0) {
-      return 'neutral';
-    }
-    // console.log('>>>', validSensors[0]);
-    // console.log('>>>', station.id);
-    // console.log('>>>', stations[station.id]);
-    // console.log('>>>', stations[station.id][validSensors[0]]);
-    // console.log('>>>', latestAvailableData);
-    // console.log('>>>', stations[station.id][validSensors[0]][0]);
-    if (validSensors.length === 1) {
+      returnValue = 'neutral';
+    } else if (validSensors.length === 1) {
       const validData = stations[station.id][validSensors[0]].filter(d => d.x.getTime() === latestAvailableData.getTime());
       if (validData.length > 0) {
         const value = validData.reduce((a, d) => a + d.avg, 0) / validData.length;
         if (limits[sub.code].length > 0) {
-          limits[sub.code].forEach((l, i) => {
-            if (value < l) {
-              return i;
-            }
-          });
-          return limits[sub.code].length;
+          returnValue = limits[sub.code].findIndex(d => d > value);
         } else {
-          return 'on';
+          returnValue = 'on';
         }
+      } else {
+        returnValue = 'off';
       }
-      return 'off';
     } else {
-      console.log(station.id, sub.code);
+      console.warn('There is a case where 2 or more sensors are sending data from the same station');
       let validData = [];
       validSensors.forEach((s) => {
         validData = validData.concat(stations[station.id][s].filter(d => d.x.getTime() === latestAvailableData.getTime()));
       });
-      console.log('vd', validData);
+      console.warn(validData);
     }
+    return returnValue;
   }
 </script>
 
