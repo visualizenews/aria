@@ -75,18 +75,7 @@
           .color('#364954')
           .class('limits')
       );
-
     }
-
-    // data.forEach((d) => {
-    //   chart.add(
-    //     chrt.chrtLine()
-    //       .data([ { x: d.x, y: d.min }, { x: d.x, y: d.max } ])
-    //       .width(2)
-    //       .stroke(getGradientId(d.min, d.max, sub.code))
-    //       .class(getGradientCode(d.min, d.max, sub.code))
-    //   );
-    // });
 
     chart.add(
       chrt.columns()
