@@ -81,7 +81,7 @@
       chrt.columns()
         .data(data, d => ({ x: d.x, y: d.min, y0: d.max }))
         .fill(d => getGradientId(d.min, d.max, sub.code))
-        .width(.1)
+        .width(.2)
     );
 
     chart.add(
@@ -97,6 +97,27 @@
         .color(d => getColor(sub.code, d.max))
         .radius(4)
     );
+
+    // const chartData = [];
+    // data.forEach((d) => {
+    //   chartData.push({ x: d.x, y: d.min, y0: d.max });
+    //   chartData.push({ x: d.x, y: d.max, y0: d.min });
+    // });
+
+    // chart.add(
+    //   chrt.dotPlot()
+    //     .vertical()
+    //     .data(chartData)
+    //     .range()
+    //     .color(d => getColor(sub.code, d.y))
+    //     .size(5)
+    //     .rangeWidth(1)
+    //     .rangeColor((d, i, a) => {
+    //       console.log(d, i, a);
+    //       return 'red';
+    //       return getGradientId(d.y, d.y0, sub.code)
+    //     })
+    //   );
 
     if (limits[sub.code].length > 0) {
       chart.add(
