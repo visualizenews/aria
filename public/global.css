@@ -488,29 +488,12 @@ body {
   z-index: 1;
 }
 
-.page-candlestick .axis > g > line,
-.page-chart .page-chart-x-axis-thick {
+.page-candlestick .axis > g > line {
   stroke: var(--ac4-color);
 }
 
-.page-candlestick .page-candlestick-x-axis-thick-highlight,
-.page-chart .page-chart-x-axis-thick-highlight {
-  height: 6px;
-}
-
-.page-chart .page-chart-y-axis-thick {
-  background-color: var(--fg-color);
-  display: none;
-  height: 1px;
-  position: absolute;
-  transform: translate3d(-105%, -50%, 0);
-  width: 4px;
-  z-index: 1;
-}
-
-.page-candlestick .axis > g > text,
-.page-chart .page-chart-x-axis-label {
-  stroke: var(--fg-color);
+.page-candlestick .yaxis > g > text,
+.page-candlestick .xaxis > g > text {
   font-family: 'Fira Mono', monospace;
   font-size: 8px;
   font-weight: 400;
@@ -518,195 +501,39 @@ body {
   letter-spacing: 1px;
 }
 
+.page-candlestick .xaxis > g > text {
+  fill: var(--fg-color);
+}
+
+.page-candlestick .yaxis > g > text {
+  text-shadow: 1px 0 0 var(--neutral-color),
+    -1px 0 0 var(--neutral-color),
+    0 1px 0 var(--neutral-color),
+    0 -1px 0 var(--neutral-color),
+    1px 1px 0 var(--neutral-color),
+    -1px -1px 0 var(--neutral-color),
+    1px -1px 0 var(--neutral-color),
+    -1px 1px 0 var(--neutral-color);
+}
+
 .page-candlestick .limits line {
   opacity: .25;
 }
 
 @media screen and (min-width:768px) {
-  .page-candlestick .axis > g > text,
-  .page-chart .page-chart-x-axis-label {
+  .page-candlestick .axis > g > text {
     font-size: 9px;
     line-height: 10px;
   }
 }
 
-.page-candlestick .page-candlestick-x-axis-label:last-of-type,
-.page-chart .page-chart-x-axis-label:last-of-type {
-  transform: translate3d(-100%, 0, 0);
+.page-candlestick .xaxis > g:first-of-type > text {
+  text-anchor: start;
 }
 
-.page-candlestick .page-candlestick-x-axis-label:first-of-type,
-.page-chart .page-chart-x-axis-label:first-of-type {
-  transform: translate3d(0, 0, 0);
-}
-
-.page-candlestick .page-candlestick-y-axis-marker,
-.page-chart .page-chart-y-axis-marker {
-  background-color: var(--fg-color);
-  display: block;
-  height: 1px;
-  left: 0;
-  position: absolute;
-  right: 0;
-  transform: translate3d(0, -50%, 0);
-  z-index: 1;
-}
-
-.page-candlestick .page-candlestick-y-axis-marker,
-.page-chart .page-chart-y-axis-marker {
-  background-color: var(--fg-color);
-  display: block;
-  height: 1px;
-  left: 0;
-  opacity: .25;
-  position: absolute;
-  right: 0;
-  transform: translate3d(0, -50%, 0);
-  z-index: 1;
-}
-
-
-.page-candlestick .page-candlestick-y-axis-marker-label,
-.page-chart .page-chart-y-axis-marker-label {
-  background-color: transparent !important;
-  display: block;
-  font-family: 'Fira Mono', monospace;
-  font-size: 10px;
-  font-weight: 400;
-  left: 5px;
-  line-height: 12px;
-  letter-spacing: 1px;
-  position: absolute;
-  transform: translate3d(0, 2px, 0);
-  z-index: 2;
-}
-
-.page-candlestick .page-candlestick-y-axis-marker-label.level-0,
-.page-chart .page-chart-y-axis-marker-label.level-0 {
-  color: var(--base-scale0-color);
-}
-
-.page-candlestick .page-candlestick-y-axis-marker-label.level-1,
-.page-chart .page-chart-y-axis-marker-label.level-1 {
-  color: var(--base-scale3-color);
-}
-
-.page-candlestick .page-candlestick-y-axis-marker-label.level-2,
-.page-chart .page-chart-y-axis-marker-label.level-2 {
-  color: var(--base-scale4-color);
-}
-
-.page-candlestick .page-candlestick-y-axis-marker-label.level-3,
-.page-chart .page-chart-y-axis-marker-label.level-3 {
-  color: var(--base-scale5-color);
-}
-
-.page-candlestick .page-candlestick-y-axis-marker-label.level-4,
-.page-chart .page-chart-y-axis-marker-label.level-4 {
-  color: var(--base-scale6-color);
-}
-
-.page-candlestick .page-candlestick-y-axis-marker-label.level-on,
-.page-chart .page-chart-y-axis-marker-label.level-on {
-  color: gold;
-}
-
-.page-candlestick .page-candlestick-y-axis-marker-label.level-off,
-.page-chart .page-chart-y-axis-marker-label.level-off {
-  color: brown;
-}
-
-.page-candlestick-y-axis-label,
-.page-chart-y-axis-label {
-  display: none;
-  font-size: 10px;
-  font-weight: 400;
-  line-height: 12px;
-  position: absolute;
-  left: 15px;
-  transform: translate3d(-100%, -50%, 0);
-}
-
-.page-candlestick-point,
-.page-chart-point {
-  background: var(--ac0-color);
-  border-radius: 50%;
-  display: block;
-  height: 5px;
-  position: absolute;
-  transform: translate3d(-50%, -50%, 0);
-  width: 5px;
-  z-index: 3;
-}
-
-.page-chart-point-value,
-.page-candlestick-point-value {
-  font-family: 'Fira Mono', monospace;
-  font-size: 10px;
-  letter-spacing: .1px;
-  position: absolute;
-  text-shadow: 1px 0 0 var(--bg-color),
-    0 1px 0 var(--bg-color),
-    1px 1px 0 var(--bg-color),
-    -1px 0 0 var(--bg-color),
-    0 -1px 0 var(--bg-color),
-    -1px -1px 0 var(--bg-color);
-    z-index: 9999;
-}
-
-.page-candlestick-point-value.page-candlestick-point-value-1 {
-  transform: translate3d(-50%, 6px, 0);
-}
-
-.page-chart-point-value,
-.page-candlestick-point-value.page-candlestick-point-value-2 {
-  transform: translate3d(-50%, -16px, 0);
-}
-
-.page-chart-point-value.level-0,
-.page-candlestick-point-value.level-0 {
-  background: transparent !important;
-  color: var(--base-scale0-color);
-}
-
-.page-chart-point-value.level-1,
-.page-candlestick-point-value.level-1 {
-  background: transparent !important;
-  color: var(--base-scale3-color);
-}
-
-.page-chart-point-value.level-2,
-.page-candlestick-point-value.level-2 {
-  background: transparent !important;
-  color: var(--base-scale4-color);
-}
-
-.page-chart-point-value.level-3,
-.page-candlestick-point-value.level-3 {
-  background: transparent !important;
-  color: var(--base-scale5-color);
-}
-
-.page-chart-point-value.level-4,
-.page-candlestick-point-value.level-4 {
-  background: transparent !important;
-  color: var(--base-scale6-color);
-}
-
-@media screen and (min-width:768px) {
-  .page-candlestick-point,
-  .page-chart-point {
-    height: 8px;
-    width: 8px;
-  }
-}
-
-@media screen and (min-width:1280px) {
-  .page-candlestick-point,
-  .page-chart-point {
-    height: 10px;
-    width: 10px;
-  }
+.page-candlestick .xaxis > g:last-of-type:last-of-type > text {
+  text-anchor: end;
+  transform: translate3d(2px, 0, 0);
 }
 
 .page-footer {
@@ -810,20 +637,4 @@ body {
 
 .page-footer strong {
   font-weight: 200;
-}
-
-.page-social {
-  display: flex;
-  justify-content: center;
-}
-
-.page-social .social-button {
-  flex: 0 1 auto;
-  padding: 0 10px;
-}
-
-@media screen and (min-width:768px) {
-  .page-social .social-button {
-    padding: 0 20px;
-  }
 }

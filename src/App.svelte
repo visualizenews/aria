@@ -2,6 +2,7 @@
 	import Maps from './components/Maps/Maps.svelte';
 	import Candlestick from './components/Candlestick/Candlestick.svelte';
 	import Texts from './components/Texts/Texts.svelte';
+	import Footer from './components/Footer/Footer.svelte';
 	import {
 		endpoint,
 		pushValue,
@@ -118,6 +119,7 @@
 		</div>
 		<Texts />
 	{/if}
+	<Footer {latestAvailableData} />
 	<div class="svg-definitions">
 		<svg width="660" height="220">
 			<defs>

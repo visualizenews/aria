@@ -81,13 +81,13 @@
   transition: background-image .25s ease-in-out;
   width: 100%;
 }
-
+/*
 .page-map-container:hover::before,
 .page-map-container:active::before {
-  background: transparent url(picture.png) center center no-repeat;
+  background: transparent url(../../picture.png) center center no-repeat;
   background-size: contain;
 }
-
+*/
 .marker {
   background: var(--neutral-color);
   border-radius: 50%;

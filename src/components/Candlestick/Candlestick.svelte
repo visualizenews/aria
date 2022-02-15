@@ -6,7 +6,6 @@
     getColor,
     getColorFromIndex,
     getGradientId,
-    getGradientCode,
     limits } from './../../settings.js';
   export let data = [];
   export let sub = {};
@@ -29,7 +28,7 @@
       .margins({
         bottom: 30,
         left: 0,
-        right: 10,
+        right: 0,
         top: 20,
       })
       .x({ scale: "time" })
@@ -56,29 +55,29 @@
           }
           return '';
         })
-        .class('axis')
+        .class('xaxis')
         .interval(interval)
     );
     
+    let ticks = limits[sub.code];
     if (limits[sub.code].length > 0) {
-      chart.add(
-        chrt.horizontalGrid()
-          .ticks(limits[sub.code])
-          .width(1)
-          .color((d, i) => {
-            return getColorFromIndex(sub.code, i);
-          })
-          .class('limits')
-      );
+      ticks = ticks.concat((maxValue > limits[sub.code][limits[sub.code].length - 1]) ? [ maxValue ] : []);
     } else {
-      chart.add(
-        chrt.horizontalGrid()
-          .ticks([maxValue, Math.round(maxValue * .3), Math.round(maxValue * .6)])
-          .width(1)
-          .color('#364954')
-          .class('limits')
-      );
+      ticks = [Math.round(maxValue * .25), Math.round(maxValue * .5), Math.round(maxValue * .75), maxValue];
     }
+    
+    chart.add(
+      chrt.horizontalGrid()
+        .ticks(ticks)
+        .width(1)
+        .color((d, i) => {
+          if (limits[sub.code].length > 0) {
+            return getColorFromIndex(sub.code, i);
+          }
+          return '#364954';
+        })
+        .class('limits')
+    );
 
     chart.add(
       chrt.columns()
@@ -122,33 +121,28 @@
     //     })
     //   );
 
-    if (limits[sub.code].length > 0) {
-      chart.add(
-        chrt.yAxis()
-          .ticks(limits[sub.code])  
-          .setLabelPosition('inside')
-          .label(' µg/m³')
-          .labelColor((d, i) => {
+    chart.add(
+      chrt.yAxis()
+        .ticks(ticks)  
+        .setLabelPosition('inside')
+        .labelColor((d, i) => {
+          if (limits[sub.code].length > 0) {
             return getColorFromIndex(sub.code, i);
-          })
-          .format(d => d)
-          .hideTicks()
-          .hideAxis()
-          .class('axis')
-      );
-    } else {
-      chart.add(
-        chrt.yAxis()
-          .ticks([maxValue, Math.round(maxValue * .3), Math.round(maxValue * .6)])  
-          .setLabelPosition('inside')
-          .label(' µg/m³')
-          .labelColor('#364954')
-          .format(d => d)
-          .hideTicks()
-          .hideAxis()
-          .class('axis')
-      );
-    }
+          }
+          return '#364954';
+        })
+        .labelsOffset([0,12])
+        .format((d, i, arr) => {
+          const value = new Intl.NumberFormat('it-IT').format(d);
+          if (i === arr.length - 1) {
+            return `${value} ${sub.unit}`;
+          }
+          return value;
+        })
+        .hideTicks()
+        .hideAxis()
+        .class('yaxis')
+    );
   });
 
 </script>
