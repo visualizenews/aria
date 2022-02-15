@@ -19,6 +19,7 @@
   --base-scale0-color: #44C08A;
 
 
+  --shadow-color: #dbeae9;
   --neutral-color: rgba(154, 174, 187, .1);
   --neutral2-color: rgba(154, 174, 187, .5);
   --off-color: rgba(154, 174, 187, .45);
@@ -488,12 +489,15 @@ body {
   z-index: 1;
 }
 
-.page-candlestick .axis > g > line {
+.page-candlestick .axis > g > line,
+.page-chart .axis > g > line {
   stroke: var(--ac4-color);
 }
 
 .page-candlestick .yaxis > g > text,
-.page-candlestick .xaxis > g > text {
+.page-candlestick .xaxis > g > text,
+.page-chart .yaxis > g > text,
+.page-chart .xaxis > g > text {
   font-family: 'Fira Mono', monospace;
   font-size: 8px;
   font-weight: 400;
@@ -501,39 +505,49 @@ body {
   letter-spacing: 1px;
 }
 
-.page-candlestick .xaxis > g > text {
+.page-candlestick .xaxis > g > text,
+.page-chart .xaxis > g > text {
   fill: var(--fg-color);
 }
 
-.page-candlestick .yaxis > g > text {
-  text-shadow: 1px 0 0 var(--neutral-color),
-    -1px 0 0 var(--neutral-color),
-    0 1px 0 var(--neutral-color),
-    0 -1px 0 var(--neutral-color),
-    1px 1px 0 var(--neutral-color),
-    -1px -1px 0 var(--neutral-color),
-    1px -1px 0 var(--neutral-color),
-    -1px 1px 0 var(--neutral-color);
+.page-candlestick .yaxis > g > text,
+.page-chart .yaxis > g > text {
+  text-shadow: 1px 0 0 var(--shadow-color),
+    -1px 0 0 var(--shadow-color),
+    0 1px 0 var(--shadow-color),
+    0 -1px 0 var(--shadow-color),
+    1px 1px 0 var(--shadow-color),
+    -1px -1px 0 var(--shadow-color),
+    1px -1px 0 var(--shadow-color),
+    -1px 1px 0 var(--shadow-color);
 }
 
-.page-candlestick .limits line {
+.page-candlestick .limits line,
+.page-chart .limits line {
   opacity: .25;
 }
 
 @media screen and (min-width:768px) {
-  .page-candlestick .axis > g > text {
+  .page-candlestick .axis > g > text,
+  .page-chart .axis > g > text {
     font-size: 9px;
     line-height: 10px;
   }
 }
 
-.page-candlestick .xaxis > g:first-of-type > text {
+.page-candlestick .xaxis > g:first-of-type > text,
+.page-chart .xaxis > g:first-of-type > text {
   text-anchor: start;
 }
 
-.page-candlestick .xaxis > g:last-of-type:last-of-type > text {
+.page-candlestick .xaxis > g:last-of-type:last-of-type > text,
+.page-chart .xaxis > g:last-of-type:last-of-type > text {
   text-anchor: end;
   transform: translate3d(2px, 0, 0);
+}
+
+.page-chart .points > circle {
+  mix-blend-mode: multiply;
 }
 
 .page-footer {

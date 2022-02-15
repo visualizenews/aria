@@ -1,6 +1,7 @@
 <script>
 	import Maps from './components/Maps/Maps.svelte';
 	import Candlestick from './components/Candlestick/Candlestick.svelte';
+	import Station from './components/Station/Station.svelte';
 	import Texts from './components/Texts/Texts.svelte';
 	import Footer from './components/Footer/Footer.svelte';
 	import {
@@ -12,6 +13,7 @@
 		aggregateValuesBySubstance,
 		createRelations,
 		createStationsList,
+		stationHasData,
 	} from './settings.js';
 
 	let status = [ 'loading' ];
@@ -112,10 +114,16 @@
 		<div class="page-text">
 			<p>Le centraline di rilevamento all'interno del comune di milano sono <span id="numberOfStations">{stationsList.length}</span>,
 				tutte gestite da <a href="https://www.arpalombardia.it/" target="_arpa">ARPA Lombardia</a>.
-				Sono localizzate in {@html getStationsListString().join(', ')}, ma non tutte risultano essere sempre online, o con sensori attivi per tutti gli inquinanti. I grafici che seguono mostrano solo le centraline con dati disponibili negli ultimi <strong><span class="writeDays">30</span> giorni</strong>.</p>
+				Sono localizzate in {@html getStationsListString().join(', ')}, ma non tutte risultano essere sempre online, o con sensori attivi per tutti gli inquinanti. I grafici che seguono mostrano solo le centraline con dati disponibili negli ultimi <strong><span class="writeDays">30</span> giorni</strong>. Ogni punto nel grafico rappresenta una rilevazione.</p>
 		</div>
 		<div class="page-charts">
-			charts
+			{#each stationsList as st}
+				{#if stationHasData(stations[st.id])}
+					<div class="page-chart">
+						<Station station={st} data={stations[st.id]} {substancesList} />
+					</div>
+				{/if}
+			{/each}
 		</div>
 		<Texts />
 	{/if}

@@ -188,3 +188,14 @@ export const getGradientId = (start, stop, code) => {
 export const getGradientCode = (start, stop, code) => {
   return `l${getColorCode(code, start)}${getColorCode(code, stop)}`;
 }
+
+export const stationHasData = (data) => {
+  if (!data) {
+    return false;
+  }
+  const sensors = Object.keys(data);
+  if (sensors.length < 1) {
+    return false;
+  }
+  return sensors.some(s => (data[s].length > 0));
+};
