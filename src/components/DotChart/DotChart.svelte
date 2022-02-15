@@ -18,9 +18,10 @@
 
     const chartData = [];
     data.data.forEach((d) => {
-      d.values.forEach((v) => {
-        chartData.push({ x: d.x, y: v });
-      })
+      chartData.push({ x: d.x, y: d.avg });
+      // d.values.forEach((v) => {
+      //   chartData.push({ x: d.x, y: v });
+      // })
     });
 
     let interval = 'day';

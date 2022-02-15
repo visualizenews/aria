@@ -547,7 +547,7 @@ body {
 }
 
 .page-chart .points > circle {
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
 }
 
 .page-footer {

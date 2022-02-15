@@ -97,7 +97,7 @@
 			<Maps {substancesList} {stations} {stationsList} {latestAvailableData} {stationsToSensors} />
 		<div class="page-title"><h2>Ultimi <span class="writeDays">30</span> giorni</h2></div>
 		<div class="page-text">
-			<p>Nei grafici seguenti è possibile vedere l'andamento di ciascuna sostanza inquinante nel corso dell'ultimo mese. Per ogni giorno sono mostrati i valori massimo e minimo rilevati.</p>
+			<p>Nei grafici seguenti è possibile vedere l'andamento di ciascuna sostanza inquinante nel corso degli ultimi trenta giorni. Per ogni giorno sono mostrati i valori massimo e minimo rilevati.</p>
 		</div>
 		<div class="page-candlesticks">
 			<div class="page-candlestick">
@@ -114,7 +114,8 @@
 		<div class="page-text">
 			<p>Le centraline di rilevamento all'interno del comune di milano sono <span id="numberOfStations">{stationsList.length}</span>,
 				tutte gestite da <a href="https://www.arpalombardia.it/" target="_arpa">ARPA Lombardia</a>.
-				Sono localizzate in {@html getStationsListString().join(', ')}, ma non tutte risultano essere sempre online, o con sensori attivi per tutti gli inquinanti. I grafici che seguono mostrano solo le centraline con dati disponibili negli ultimi <strong><span class="writeDays">30</span> giorni</strong>. Ogni punto nel grafico rappresenta una rilevazione.</p>
+				Sono localizzate in {@html getStationsListString().join(', ')}, ma non tutte risultano essere sempre online, o con sensori attivi per tutti gli inquinanti. I grafici che seguono mostrano solo le centraline con dati disponibili negli ultimi <strong><span class="writeDays">30</span> giorni</strong>.<br />
+				Ogni punto nel grafico rappresenta la media delle rilevazioni giornaliere.</p>
 		</div>
 		<div class="page-charts">
 			{#each stationsList as st}

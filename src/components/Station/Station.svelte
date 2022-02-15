@@ -25,7 +25,7 @@
     {#each subs as sub}
     <div class="page-chart-wrapper">
       <div class="page-chart-wrapper-inner">
-        <div class="page-chart-wrapper-title"><h3>{sub.name}</h3></div>
+        <div class="page-chart-wrapper-title"><h3>{sub.name} - Ultima rilevazione: 12/2</h3></div>
           <DotChart data={sub} />
       </div>
     </div>
