@@ -33,7 +33,7 @@
       .node(el)
       .size(W, H)
       .margins({
-        bottom: 30,
+        bottom: 25,
         left: 0,
         right: 5,
         top: 20,
@@ -47,7 +47,7 @@
         .orient('bottom')
         .setTickPosition("outside")
         .setLabelPosition('outside')
-        .color('transparent')
+        .hideAxis()
         .width(1)
         .format((d, i, arr) => {
           if (            
@@ -62,6 +62,7 @@
           }
           return '';
         })
+        .ticksColor('#364954')
         .class('xaxis')
         .interval(interval)
     );

@@ -314,6 +314,13 @@ body {
   margin-bottom: 40px;
 }
 
+@media screen and (min-width:768px) {
+  .page-candlestick,
+  .page-chart {
+    margin-bottom: 0;
+  }
+}
+
 .page-candlestick .page-candlestick-scroller,
 .page-chart .page-chart-scroller {
   border-bottom: 1px solid var(--neutral-color);
@@ -354,7 +361,7 @@ body {
 .page-chart .page-chart-wrapper {
   display: block;
   flex: 0 0 95vw;
-  height: 160px;
+  height: 190px;
   max-width: 95vw;
   padding: 0 40px;
   position: relative;
@@ -429,7 +436,8 @@ body {
 .page-candlestick .page-candlestick-wrapper-inner,
 .page-chart .page-chart-wrapper-inner {
   display: block;
-  height: 160px;
+  height: 190px;
+  padding-top: 16px;
   position: relative;
   width: 100%;
 }
@@ -471,10 +479,19 @@ body {
   z-index: 2;
 }
 
+.page-chart .page-chart-wrapper-title h3 span {
+  font-size: 9px;
+  font-weight: 400;
+}
+
 @media screen and (min-width:768px) {
   .page-candlestick .page-candlestick-wrapper-title h3,
   .page-chart .page-chart-wrapper-title h3 {
     font-size: 12px;
+  }
+
+  .page-chart .page-chart-wrapper-title h3 span {
+    font-size: 10px;
   }
 }
 

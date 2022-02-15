@@ -26,7 +26,7 @@
       .node(el)
       .size(W, H)
       .margins({
-        bottom: 30,
+        bottom: 25,
         left: 0,
         right: 5,
         top: 20,
@@ -40,8 +40,7 @@
         .orient('bottom')
         .setTickPosition("outside")
         .setLabelPosition('outside')
-        .color('transparent')
-        .width(1)
+        .hideAxis()
         .format((d, i, arr) => {
           if (            
             (new Date(d).getDay() === 1 && arr.length - i > 5)
@@ -55,6 +54,7 @@
           }
           return '';
         })
+        .ticksColor('#364954')
         .class('xaxis')
         .interval(interval)
     );

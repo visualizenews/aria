@@ -12,7 +12,8 @@
   sensors.forEach((s) => {
     if (data[s].length > 1) {
       const sub = substancesList.find(d => d.sensors.includes(s));
-      subs = pushValue(subs, {...sub, data: data[s]});
+      const lastData = Math.max(...data[s].map(d => d.x.getTime()));
+      subs = pushValue(subs, {...sub, data: data[s], lastData});
     }
   });
   subs = subs.sort((a, b) => a.sort - b.sort);
@@ -25,7 +26,15 @@
     {#each subs as sub}
     <div class="page-chart-wrapper">
       <div class="page-chart-wrapper-inner">
-        <div class="page-chart-wrapper-title"><h3>{sub.name} - Ultima rilevazione: 12/2</h3></div>
+        <div class="page-chart-wrapper-title">
+          <h3>
+            {sub.name}
+            <span>Ultimo dato: {new Intl.DateTimeFormat('it-IT', {
+              day: 'numeric',
+              month: 'numeric'
+            }).format(new Date(sub.lastData))}</span>
+          </h3>
+        </div>
           <DotChart data={sub} />
       </div>
     </div>
