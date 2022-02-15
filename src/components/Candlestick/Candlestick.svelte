@@ -28,8 +28,8 @@
       .size(W, H)
       .margins({
         bottom: 30,
-        left: 12,
-        right: 12,
+        left: 0,
+        right: 10,
         top: 20,
       })
       .x({ scale: "time" })
@@ -44,7 +44,10 @@
         .color('transparent')
         .width(1)
         .format((d, i, arr) => {
-          if (i % 7 === 0 || i === arr.length - 1) {
+          if (            
+            (new Date(d).getDay() === 1 && arr.length - i > 5)
+            || i === arr.length - 1
+          ) {
             return new Intl.DateTimeFormat('it-IT', {
               month: 'numeric',
               day: 'numeric',
@@ -88,14 +91,14 @@
       chrt.chrtPoints()
         .data(data, d => ({ x: d.x, y: d.min }))
         .color(d => getColor(sub.code, d.min))
-        .radius(4)
+        .radius(3)
     );
 
     chart.add(
       chrt.chrtPoints()
         .data(data, d => ({ x: d.x, y: d.max }))
         .color(d => getColor(sub.code, d.max))
-        .radius(4)
+        .radius(3)
     );
 
     // const chartData = [];

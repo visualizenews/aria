@@ -352,9 +352,9 @@ body {
 .page-candlestick .page-candlestick-wrapper,
 .page-chart .page-chart-wrapper {
   display: block;
-  flex: 0 0 85vw;
+  flex: 0 0 95vw;
   height: 160px;
-  max-width: 85vw;
+  max-width: 95vw;
   padding: 0 40px;
   position: relative;
 }
